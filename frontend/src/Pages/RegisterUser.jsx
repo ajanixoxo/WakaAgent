@@ -20,7 +20,6 @@ function RegisterUser() {
     const [password, setPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState();
     const [country, setCountry] = useState(0);
-    const [stateid, setstateid] = useState(0);
     const navigate = useNavigate();
 
     const { signup, isLoading } = useAuthStore();
@@ -119,6 +118,7 @@ console.log(country)
                                     autoComplete="phoneNumber"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
+                                
                             </div>
                         </div>
 
@@ -130,10 +130,11 @@ console.log(country)
                                 <CountrySelect
                                     onChange={(e) => {
                                         setCountry(e.name);
+                                       
                                     }}
                                     placeHolder="Select Country"
                                     value={country}
-                                    name={country}
+                                    name="country"
                                     required
                                 />
                             </div>

@@ -30,15 +30,30 @@ const agentSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    img: {
-        type: File,
-        default: null
-    },
+    image: {
+        data: {
+          type: Buffer, // Store image data as a buffer
+          
+        },
+        contentType: {
+          type: String,
+       
+        },
+        name: {
+          type: String,
+        
+        },
+        url: {
+          type: String,
+        
+        }
+        ,
+      },
     verified: {
         type: Boolean,
         default: false
     },
-    operationArea: {
+    area: {
         type: Array,
         required: true
     },

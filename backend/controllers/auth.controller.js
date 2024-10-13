@@ -1,4 +1,5 @@
 import { User } from '../models/user.models.js'
+import { Agent } from '../models/agent.models.js'
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
 import { sendVerificationEmail, sendWelcomeEmail, sendPasswordRestEmail, sendResetSuccessEmail } from '../mailtrap/emails.js';
 
@@ -52,38 +53,118 @@ export const signup = async (req, res) => {
 
     }
 }
-export const verifyEmail = async (req, res) => {
-    const { code } = req.body
+export const signupAgent = async (req, res) => {
+    const { email, password, name,  phoneNumber, country, nin, area  } = req.body;
     try {
-        const user = await User.findOne({
-            verificationToken: code,
-            verificationTokenExpiresAt: { $gt: Date.now() }
+        if (!email || !password || !name) {
+            throw new Error("All fields are required")
 
-        })
-        if (!user) {
-            return res.status(400).json({ success: false, message: "Invalid or expired verification code" })
         }
-        user.isVerified = true;
-        user.verificationToken = undefined
-        user.verificationTokenExpiresAT = undefined
-        await user.save()
+        const agentAlreadyExists = await Agent.findOne({ email })
+        if (agentAlreadyExists) {
+            return res.status(400).json({ success: false, message: "Agent already Exists" })
+        }
 
-        await sendWelcomeEmail(user.email, user.name)
-        res.status(200).json({
+        const hashedPassword = await bcryptjs.hash(password, 10)
+        const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+        const agent = new Agent({
+            email,
+            password: hashedPassword,
+            name,
+            phoneNumber,
+            country, 
+            nin,
+            area,
+            verificationToken,
+            verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000 //24hours
+        })
+        await agent.save();
+
+        //jwt 
+        generateTokenAndSetCookie(res, agent._id)
+        await sendVerificationEmail(agent.email, verificationToken)
+        res.status(201).json({
             success: true,
-            message: "Email verified successfully",
-            user: {
-                ...user._doc,
-                password: undefined,
+            message: "Agent User Created Successfully",
+            agent: {
+                ...agent.doc,
+                password: undefined
+
             }
         })
 
     } catch (error) {
-        console.log(`Server Error ${error}`)
-        res.status(500).json({ success: false, message: "Server error" })
+        const agent = await Agent.findOne({ email })
+        agent.deleteOne(email)
+        await agent.save()
+        return res.status(400).json({ success: false, message: error.message })
+
 
     }
 }
+export const verifyEmail = async (req, res) => {
+    const { code } = req.body;
+
+    try {
+        // First, try to find a user with the verification token
+        const user = await User.findOne({
+            verificationToken: code,
+            verificationTokenExpiresAt: { $gt: Date.now() }
+        });
+
+        // If a user is found, verify the user
+        if (user) {
+            user.isVerified = true;
+            user.verificationToken = undefined;
+            user.verificationTokenExpiresAt = undefined;
+            await user.save();
+
+            await sendWelcomeEmail(user.email, user.name);
+
+            return res.status(200).json({
+                success: true,
+                message: "Email verified successfully",
+                user: {
+                    ...user._doc,
+                    password: undefined, // Remove password from response
+                },
+            });
+        }
+
+        // If no user is found, try to find an agent with the same verification token
+        const agent = await Agent.findOne({
+            verificationToken: code,
+            verificationTokenExpiresAt: { $gt: Date.now() }
+        });
+
+        // If an agent is found, verify the agent
+        if (agent) {
+            agent.isVerified = true;
+            agent.verificationToken = undefined;
+            agent.verificationTokenExpiresAt = undefined;
+            await agent.save();
+
+            // You can send a different welcome email for agents if needed
+            await sendWelcomeEmail(agent.email, agent.name);
+
+            return res.status(200).json({
+                success: true,
+                message: "Agent email verified successfully",
+                agent: {
+                    ...agent._doc,
+                    password: undefined, // Remove password from response
+                },
+            });
+        }
+
+        // If neither user nor agent is found, return an error
+        return res.status(400).json({ success: false, message: "Invalid or expired verification code" });
+    } catch (error) {
+        console.log(`Server Error: ${error}`);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {

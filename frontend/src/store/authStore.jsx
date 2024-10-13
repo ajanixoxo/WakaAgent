@@ -8,6 +8,7 @@ axios.defaults.withCredentials = true;
 
 export const useAuthStore = create((set) => ({
 	user: null,
+	agent: null,
 	isAuthenticated: false,
 	error: null,
 	isLoading: false,
@@ -17,8 +18,20 @@ export const useAuthStore = create((set) => ({
 	signup: async (email, password, name, phoneNumber, country) => {
 		set({ isLoading: true, error: null });
 		try {
-			const response = await axios.post(`${API_URL}/signup`, { email, password, name, phoneNumber,country });
+			const response = await axios.post(`${API_URL}/signup`, { email, password, name, phoneNumber, country });
 			set({ user: response.data.user, isAuthenticated: true, isLoading: false });
+		} catch (error) {
+			set({ error: error.response.data.message || "Error signing up", isLoading: false });
+			throw error;
+		}
+	},
+	signupAgent: async (email, password, name, phoneNumber, country, nin, area) => {
+		set({ isLoading: true, error: null });
+		try {
+			console.log("from auth", email, password, name, phoneNumber, country, nin, area)
+			const response = await axios.post(`${API_URL}/signup-agent`, { email, password, name, phoneNumber, country, nin, area });
+			console.log("This is ", response)
+			set({ agent: response.data.agent, isAuthenticated: true, isLoading: false });
 		} catch (error) {
 			set({ error: error.response.data.message || "Error signing up", isLoading: false });
 			throw error;
@@ -54,7 +67,14 @@ export const useAuthStore = create((set) => ({
 		set({ isLoading: true, error: null });
 		try {
 			const response = await axios.post(`${API_URL}/verify-email`, { code });
-			set({ user: response.data.user, isAuthenticated: true, isLoading: false });
+            
+			const verifiedUser = response.data.user || response.data.agent;
+			if (response.data.user) {
+				set({ user: response.data.user, isAuthenticated: true, isLoading: false });
+			} else if (response.data.agent) {
+				set({ agent: response.data.agent, isAuthenticated: true, isLoading: false });
+			}
+
 			return response.data;
 		} catch (error) {
 			set({ error: error.response.data.message || "Error verifying email", isLoading: false });

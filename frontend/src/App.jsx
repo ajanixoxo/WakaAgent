@@ -11,42 +11,60 @@ import RegisterUser from './Pages/RegisterUser'
 import VerifyEmail from './Pages/VerifyEmail'
 import UserDashboard from './Pages/UserDashboard';
 import RegisterAgent from './Pages/RegisterAgent'
+import AgentDashboard from './Pages/AgentDashboard'
 import { useAuthStore } from './store/authStore'
 import toast,{ Toaster } from 'react-hot-toast';
 
 import './App.css'
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, agent } = useAuthStore();
 
+  // If not authenticated, redirect to login
   if (!isAuthenticated) {
-    return <Navigate to='/login' replace />;
+    return <Navigate to='/login-user' replace />;
   }
 
-  if (!user.isVerified) {
+  // If the authenticated entity is a user and not verified, redirect to verify email
+  if (user && !user.isVerified) {
     return <Navigate to='/verify-email' replace />;
   }
 
+  // If the authenticated entity is an agent and not verified, redirect to verify email
+  if (agent && !agent.isVerified) {
+    return <Navigate to='/verify-email' replace />;
+  }
+
+  // If authenticated and verified, render children
   return children;
 };
-const RedirectAuthenticatedUser = ({ children }) => {
-  const { isAuthenticated, user } = useAuthStore();
 
-  if (isAuthenticated && user.isVerified) {
+const RedirectAuthenticatedUser = ({ children }) => {
+  const { isAuthenticated, user, agent } = useAuthStore();
+
+  // Redirect authenticated and verified users to user dashboard
+  if (isAuthenticated && user && user.isVerified) {
     return <Navigate to='/user-dashboard' replace />;
   }
-  
 
+  // Redirect authenticated and verified agents to agent dashboard
+  if (isAuthenticated && agent && agent.isVerified) {
+    return <Navigate to='/agent-dashboard' replace />;
+  }
+
+  // If neither is authenticated or verified, render children
   return children;
 };
+
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore()
+  const { isCheckingAuth, checkAuth, isAuthenticated, user, agent  } = useAuthStore()
 
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
   console.log("isauthenticate", isAuthenticated)
   console.log("user", user)
+  console.log("agent", agent)
 
   return (
     <>
@@ -88,6 +106,10 @@ function App() {
         <Route path="/user-dashboard" element={
           <ProtectedRoute>
             <UserDashboard />
+          </ProtectedRoute>} />
+        <Route path="/agent-dashboard" element={
+          <ProtectedRoute>
+            <AgentDashboard />
           </ProtectedRoute>} />
       </Routes>
       <Footer />
