@@ -94,9 +94,7 @@ export const signupAgent = async (req, res) => {
         })
 
     } catch (error) {
-        const agent = await Agent.findOne({ email })
-        agent.deleteOne(email)
-        await agent.save()
+        
         return res.status(400).json({ success: false, message: error.message })
 
 
@@ -169,7 +167,8 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email })
-        if (!user) {
+        const agent = await Agent.findOne({ email})
+        if (!user && !agent) {
             return res.status(400).json({ success: false, message: "Invalid Credentials" })
         }
         const isPasswordValid = await bcryptjs.compare(password, user.password)
@@ -177,7 +176,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ success: false, message: "Invalid passoword" })
         }
         generateTokenAndSetCookie(res, user._id)
-
+       if(user){
         user.lastLogin = new Date()
         await user.save()
         res.status(200).json({
@@ -186,6 +185,19 @@ export const login = async (req, res) => {
                 password: undefined
             }
         })
+       }else if(agent){
+        agent.lastLogin = new Date()
+        await agent.save()
+        res.status(200).json({
+            success: true, message: "login successful", agent: {
+                ...agent._doc,
+                password: undefined
+            }
+        })
+       }
+      
+       
+      
 
     } catch (error) {
         console.log("Error in login", error)

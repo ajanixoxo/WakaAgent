@@ -258,7 +258,7 @@ function RegisterAgent() {
 
                     <p className="mt-10 text-center text-sm text-gray-500">
                         already have an account {' '}
-                        <Link to="/login-user" className="font-semibold leading-6 p-2 text-indigo-6 p-200 hover:text-indigo-500">
+                        <Link to="/login-agent" className="font-semibold leading-6 p-2 text-indigo-6 p-200 hover:text-indigo-500">
                             Login
                         </Link>
                     </p>
