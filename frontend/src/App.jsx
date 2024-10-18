@@ -5,12 +5,13 @@ import { Navigate } from 'react-router-dom'
 import { Routes, Route } from 'react-router-dom'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
-import Home from './Pages/Home'
-import Login from './Pages/Login'
-import RegisterUser from './Pages/RegisterUser'
+import Home from './Pages/Home/Home'
+import Login from './Pages/Auth/Login'
+import RegisterPage from './Pages/Auth/Register'
+import RegisterUser from './Pages/Auth/RegisterUser'
 import VerifyEmail from './Pages/VerifyEmail'
 import UserDashboard from './Pages/UserDashboard';
-import RegisterAgent from './Pages/RegisterAgent'
+import RegisterAgent from './Pages/Auth/RegisterAgent'
 import AgentDashboard from './Pages/AgentDashboard'
 import { useAuthStore } from './store/authStore'
 import toast,{ Toaster } from 'react-hot-toast';
@@ -90,7 +91,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register-user" element={
           <RedirectAuthenticatedUser>
-            <RegisterUser />
+            <RegisterPage />
           </RedirectAuthenticatedUser>}
         />
         <Route path="/register-agent" element={

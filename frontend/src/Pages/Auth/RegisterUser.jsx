@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../../store/authStore";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import {

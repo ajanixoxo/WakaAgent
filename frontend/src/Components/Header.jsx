@@ -3,9 +3,9 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Waka from '/assets/images/logo/waka-logo.png'
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
+  { name: 'Home', href: '/#', current: true },
   { name: 'About', href: '/#about', current: false },
-  { name: 'Service', href: '/#service', current: false },
+  { name: 'How To', href: '/#service', current: false },
   { name: 'Region', href: '/#region', current: false },
   { name: 'Register User', href: '/register-user', current: false },
   { name: 'Register Agent', href: '/register-agent', current: false },
