@@ -71,7 +71,7 @@ const RegisterPage = () => {
                 </div>
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 w-[50%]">
                     <form className="space-y-6 w-[100%] flex flex-col items-center" onSubmit={handleSubmit}>
-                        <div>
+                        <div className="w-[50%]" >
                             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                                 User name
                             </label>
@@ -92,7 +92,7 @@ const RegisterPage = () => {
                             </div>
                         </div>
 
-                        <div>
+                        <div className="w-[50%]" >
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email
                             </label>
@@ -113,7 +113,7 @@ const RegisterPage = () => {
                             </div>
                         </div>
 
-                        <div>
+                        <div className="w-[50%]" >
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                 Password
                             </label>
@@ -133,7 +133,7 @@ const RegisterPage = () => {
                                 />
                             </div>
                         </div>
-                        <div>
+                        <div className="w-[50%]" >
                             <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
                                 Phone Number (What&apos;sApp)
                             </label>
@@ -153,7 +153,7 @@ const RegisterPage = () => {
                                 />
                             </div>
                         </div>
-                        <div>
+                        <div className="w-[50%]" >
                             <label htmlFor="country" className="block text-sm font-medium text-gray-700">
                             Country(Nigeria,Togo & Benin Avaiable for now )
 
@@ -185,7 +185,7 @@ const RegisterPage = () => {
                             </div>
                         </div>
 
-                        {/* <div>
+                        {/* <div className="w-[50%]" >
                             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                                 Confirm password
                             </label>
@@ -206,7 +206,7 @@ const RegisterPage = () => {
                             </div>
                         </div> */}
 
-                        <div>
+                        <div className="w-[50%]" >
                             <button
                                 type="submit"
                                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
