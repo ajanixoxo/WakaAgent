@@ -167,46 +167,60 @@ export const verifyEmail = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email })
-        const agent = await Agent.findOne({ email})
+        const user = await User.findOne({ email });
+        const agent = await Agent.findOne({ email });
+
+        // If neither user nor agent exists, return error
         if (!user && !agent) {
-            return res.status(400).json({ success: false, message: "Invalid Credentials" })
+            return res.status(400).json({ success: false, message: "Invalid Credentials" });
         }
-        const isPasswordValid = await bcryptjs.compare(password, user.password)
-        if (!isPasswordValid) {
-            return res.status(400).json({ success: false, message: "Invalid passoword" })
-        }
-        generateTokenAndSetCookie(res, user._id)
-       if(user){
-        user.lastLogin = new Date()
-        await user.save()
-        res.status(200).json({
-            success: true, message: "login successful", user: {
-                ...user._doc,
-                password: undefined
-            }
-        })
-       }else if(agent){
-        agent.lastLogin = new Date()
-        await agent.save()
-        res.status(200).json({
-            success: true, message: "login successful", agent: {
-                ...agent._doc,
-                password: undefined
-            }
-        })
-       }
-      
-       
-      
 
+        // Check if user exists and validate password
+        if (user) {
+            const isPasswordValid = await bcryptjs.compare(password, user.password);
+            if (!isPasswordValid) {
+                return res.status(400).json({ success: false, message: "Invalid password" });
+            }
+            // Set user login details
+            generateTokenAndSetCookie(res, user._id);
+            user.lastLogin = new Date();
+            await user.save();
+            return res.status(200).json({
+                success: true,
+                message: "Login successful",
+                user: {
+                    ...user._doc,
+                    password: undefined // Hides password in response
+                }
+            });
+        }
+
+        // Check if agent exists and validate password
+        if (agent) {
+            const isPasswordValid = await bcryptjs.compare(password, agent.password);
+            if (!isPasswordValid) {
+                return res.status(400).json({ success: false, message: "Invalid password" });
+            }
+            // Set agent login details
+            generateTokenAndSetCookie(res, agent._id);
+            agent.lastLogin = new Date();
+            await agent.save();
+            return res.status(200).json({
+                success: true,
+                message: "Login successful",
+                agent: {
+                    ...agent._doc,
+                    password: undefined // Hides password in response
+                }
+            });
+        }
+      
     } catch (error) {
-        console.log("Error in login", error)
-        res.status(400).json({ success: false, message: error.message })
-
+        console.log("Error in login", error);
+        res.status(400).json({ success: false, message: error.message });
     }
+};
 
-}
 export const forgotPassword = async (req, res) => {
     const { email } = req.body
     try {

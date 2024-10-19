@@ -16,14 +16,14 @@ function UserDashboard() {
 
     <header className="bg-white shadow">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard </h1>
       </div>
     </header>
     <main>
       <div className="mx-auto max-w-7xl grid gap-4 px-4 py-6 sm:px-6 lg:px-8">
         <div className="p-4 bg-sky-800 bg-opacity-50 rounded-lg border border-sky-700">
         <h3 className='text-xl font-semibold text-blue-800 mb-3'>Profile Information</h3>
-					<p className='text-white'>Name: {user.name}</p>
+					<p className='text-white'>Name: Welcome Client {user.name}</p>
 					<p className='text-white'>Email: {user.email}</p>
         </div>
         <div className="p-4 bg-sky-800 bg-opacity-50 rounded-lg border border-sky-700">
