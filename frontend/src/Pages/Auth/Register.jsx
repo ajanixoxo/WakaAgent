@@ -13,48 +13,36 @@ import {
 
 
 import Waka from '/assets/images/logo/waka-logo.png'
-import Log from '/assets/images/slider/slider-pagi-2.jpg'
+import Log from '/assets/images/slider/slider-1.png'
 import toast, { Toaster } from 'react-hot-toast';
 const RegisterPage = () => {
-    const [formData, setFormData] = useState({
-        email:'',
-        password: '',
-        name: '',
-        phoneNumber:'',
-        country:'',
-
-      
-        //confirmPassword: '',
-        
-    });
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState();
+    const [country, setCountry] = useState("");
     const navigate = useNavigate();
     const { signup, isLoading } = useAuthStore();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Form submitted:', email, password, name, phoneNumber, country);
         // Handle form submission logic here
         // if()
         try {
-            console.log('Form submitted:', formData);
-            await signup(formData)
+
+            await signup(email, password, name, phoneNumber, country)
             navigate("/verify-email")
             toast.success("Successfully signed up");
         } catch (error) {
             console.log(error);
         }
-      
+
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-2 lg:px-4">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="flex justify-center">
                     <img src={Waka} alt="waka logo" className="w-32" />
@@ -62,14 +50,15 @@ const RegisterPage = () => {
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                     Waka Agent
                 </h2>
+                <p className="mt-2 text-center text-xl text-gray-600"> Register Your Account</p>
 
             </div>
 
-            <div className="mt-8   flex">
-                <div className="w-[50%]">
+            <div className="mt-4   flex justify-center">
+                {/* <div className="w-[50%]">
                     <img src={Log} alt="" className="w-full" />
-                </div>
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 w-[50%]">
+                </div> */}
+                <div className="bg-white py-8 px-2 shadow  sm:rounded-lg sm:px-10 w-[50%]">
                     <form className="space-y-6 w-[100%] flex flex-col items-center" onSubmit={handleSubmit}>
                         <div className="w-[50%]" >
                             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -86,8 +75,8 @@ const RegisterPage = () => {
                                     required
                                     className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border-gray-300 h-10 rounded-md"
                                     placeholder="User name"
-                                    value={formData.username}
-                                    onChange={handleChange}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -107,8 +96,8 @@ const RegisterPage = () => {
                                     required
                                     className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border-gray-300 h-10 rounded-md"
                                     placeholder="Email"
-                                    value={formData.email}
-                                    onChange={handleChange}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -128,8 +117,8 @@ const RegisterPage = () => {
                                     required
                                     className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border-gray-300 h-10 rounded-md"
                                     placeholder="Your password"
-                                    value={formData.password}
-                                    onChange={handleChange}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -148,14 +137,14 @@ const RegisterPage = () => {
                                     required
                                     className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border-gray-300 h-10 rounded-md"
                                     placeholder="Your Phone Number"
-                                    value={formData.phoneNumber}
-                                    onChange={handleChange}
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
                                 />
                             </div>
                         </div>
                         <div className="w-[50%]" >
                             <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                            Country(Nigeria,Togo & Benin Avaiable for now )
+                                Country(Nigeria,Togo & Benin Avaiable for now )
 
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
@@ -163,10 +152,13 @@ const RegisterPage = () => {
                                     <Flag className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <CountrySelect
-                                   
+
+                                    onChange={(e) => {
+                                        setCountry(e.name);
+
+                                    }}
                                     placeHolder="Select Country"
-                                    value={formData.country}
-                                    onChange={handleChange}
+                                    value={country}
                                     name="country"
                                     className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border-gray-300 h-10 rounded-md"
 
@@ -211,7 +203,7 @@ const RegisterPage = () => {
                                 type="submit"
                                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                             >
-                                Sign Up
+                                {isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Sign Up"}
                             </button>
                         </div>
                     </form>
