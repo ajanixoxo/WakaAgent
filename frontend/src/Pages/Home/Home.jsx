@@ -11,6 +11,7 @@ import About from './About';
 import Contact from './Contact';
 import Reviews from './Reviews';
 import Footer from './Footer';
+import Area from './Area';
 
 
 function Home() {
@@ -26,6 +27,7 @@ function Home() {
     <>
       <Hero />
       <HowTo />
+      <Area />
       <About />
       <Contact />
       <Reviews />
