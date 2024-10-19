@@ -55,7 +55,7 @@ function Header() {
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-sky-700 text-white' : 'text-gray-600 hover:bg-sky-500 hover:text-white',
+                      item.current ? 'bg-sky-700 text-white' : 'text-black hover:bg-sky-500 hover:text-white',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
@@ -86,7 +86,7 @@ function Header() {
           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
           className="h-8 w-8 rounded-full"
         /> */}
-        <h2  className="font-bold">Welcome {(user || agent) ? user.name : agent.name}</h2>
+        <h2  className="font-bold text-sm md:text-md">Welcome {(user || agent) ? user.name : agent.name}</h2>
       </MenuButton>
     </div>
     <MenuItems
@@ -94,17 +94,17 @@ function Header() {
       className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
     >
       <MenuItem>
-        <Link to="/user-dashboard" className="block px-4 py-2 text-smtext-black data-[focus]:bg-gray-100">
+        <Link to="/user-dashboard" className="block px-4 py-2 text-sm text-black data-[focus]:bg-gray-500">
           Your Profile
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link href="#" className="block px-4 py-2 text-smtext-black data-[focus]:bg-gray-100">
+        <Link href="#" className="block px-4 py-2 text-sm text-black data-[focus]:bg-gray-500">
           Settings
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to="/logout" className="block px-4 py-2 text-smtext-black data-[focus]:bg-gray-100">
+        <Link to="/logout" className="block px-4 py-2 text-smt ext-black data-[focus]:bg-gray-500">
           Sign out
         </Link>
       </MenuItem>
@@ -113,9 +113,9 @@ function Header() {
   </div>
   
 ) : (
-  <div>
-    <Link to='/register-agent' className="mr-4 font-bold hover:text-gray-400">Agent Register</Link> 
-    <Link to='/register-user' className="font-bold hover:text-gray-400">User Register</Link>
+  <div className="flex flex-col md:flex-row">
+    <Link to='/register-agent' className="text-xs md:text-md  mr-4 font-bold hover:text-gray-400">Agent Register</Link> 
+    <Link to='/register-user' className=" text-sm md:text-md font-bold hover:text-gray-400">User Register</Link>
   </div>
 )}
 
@@ -136,7 +136,7 @@ function Header() {
               href={item.href}
               aria-current={item.current ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                item.current ? 'bg-gray-900 text-white' : 'text-black hover:bg-gray-700 hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >

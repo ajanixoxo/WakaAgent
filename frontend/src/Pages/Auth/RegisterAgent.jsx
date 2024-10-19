@@ -76,8 +76,8 @@ function RegisterAgent() {
                 </div>
 
                 <div className="flex flex-col justify-center items-center w-full">
-                    <form onSubmit={handleSignUp} method="POST" className="space-y-6 p-2 w-[60%]">
-                        <div className="flex gap-10 w-full">
+                    <form onSubmit={handleSignUp} method="POST" className="space-y-6 p-2 w-[90%] md:w-[60%]">
+                        <div className="flex flex-col md:flex-row gap-10 w-full">
                             <div className="w-full">
 
                                 <div>
