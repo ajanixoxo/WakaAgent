@@ -17,8 +17,8 @@ const Footer = () => {
           <div className="flex items-center mb-4 md:mb-0">
             <img src={Waka} alt="logo" className="w-20" />
             <div>
-              <h2 className="text-xl font-bold"> Agent Waka</h2>
-              <p className="text-sm text-gray-400">Rental Service</p>
+              <h2 className="text-xl font-bold hidden"> Agent Waka</h2>
+              <p className="text-smtext-sky- hidden">Rental Service</p>
             </div>
           </div>
           <nav className="mb-4 md:mb-0">
@@ -26,7 +26,7 @@ const Footer = () => {
               <li><a href="#" className="hover:text-sky-500 transition-colors">Home</a></li>
               <li><a href="#about" className="hover:text-sky-500 transition-colors">About</a></li>
               <li><a href="#service" className="hover:text-sky-500 transition-colors">How To</a></li>
-              <li><Link to="/login" className="hover:text-sky-500 transition-colors">Login</Link></li>
+              <li><Link to="/register-agent" className="hover:text-sky-500 transition-colors">Join Team</Link></li>
               <li><a href="#contact" className="hover:text-sky-500 transition-colors">Contact</a></li>
             </ul>
           </nav>
@@ -45,7 +45,7 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="text-center text-sm text-gray-400">
+        <div className="text-center text-smtext-sky-200">
           <p>Copyright © 2024.WakaAgent</p>
         </div>
       </div>

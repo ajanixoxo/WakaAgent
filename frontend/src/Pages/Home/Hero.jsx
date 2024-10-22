@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { useSelector } from 'react-redux';
 import { GetAreaState } from './../../store/GetArea';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 function Hero() {
     const [selectedCountry, setSelectedCountry] = useState('Nigeria');
@@ -35,9 +36,9 @@ function Hero() {
                   Simplify Your Rental Search with Agentwaka—Just ₦2,000!
               </p>
           </div>
-          <form className="grid w-[100%] lg:w-[70%] p-4 ">
-              <div className="bg-sky-400 rounded mx-auto lg:w-[10%] p-2 text-center text-white font-bold">Rent</div>
-              <div className="grid gap-4  p-2 md:p-4 bg-white w-full ">
+          <form className="grid w-[100%] lg:w-[70%] p-1 md:p-4 ">
+              <div className="bg-sky-400  mx-auto lg:w-[10%] px-4 p-1 md:p-2 text-center text-white font-bold">Rent</div>
+              <div className="grid gap-4  p-4 md:p-4 bg-white w-full ">
                   <div className="flex flex-col w-[90%]  md:w-[50%] md:flex-row gap-10">
                       <div className=" border-sky-500 outline-sky-500 flex justify-center border w-[100%] lg:w-[50%] h-10 ">
                           <input
@@ -113,7 +114,7 @@ function Hero() {
               </div>
             )}
                   <button type="submit" className="bg-sky-500 hover:bg-sky-800 w-28 text-white p-2 font-bold mx-auto"
-                  >Send</button>
+                  >Search</button>
 
               </div>
           </form>

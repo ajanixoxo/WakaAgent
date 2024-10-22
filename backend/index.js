@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === "production") {
 
 
 
-app.listen(5000, () => {
+app.listen(PORT || 5000, () => {
     connectDB()
     console.log(`app is listening on port ${PORT}`)
 })  
