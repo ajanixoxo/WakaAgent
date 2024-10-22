@@ -11,13 +11,13 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-8">
+    <footer className="bg-sky-500 text-white py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="flex items-center mb-4 md:mb-0">
             <img src={Waka} alt="logo" className="w-20" />
             <div>
-              <h2 className="text-xl font-bold">Waka Agent</h2>
+              <h2 className="text-xl font-bold"> Agent Waka</h2>
               <p className="text-sm text-gray-400">Rental Service</p>
             </div>
           </div>

@@ -15,7 +15,7 @@ function Hero() {
     
   return (
 
-    <div className="hero w-full flex items-center justify-center  h-screen  bg-center bg-cover" id="hero"
+    <div className="hero w-full flex items-center justify-center  h-max lg:h-screen  bg-center bg-cover" id="hero"
     data-aos="zoom-in"
     data-aos-offset="200"
     data-aos-delay="50"
