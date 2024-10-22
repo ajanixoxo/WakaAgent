@@ -12,7 +12,7 @@ const navigation = [
   { name: 'How To', href: '/#service', current: false },
   { name: 'Region', href: '/#region', current: false },
   // { name: 'Register User', href: '/register-user', current: false },
-  // { name: 'Register Agent', href: '/register-agent', current: false },
+  { name: 'Join Team', href: '/register-agent', current: false },
   { name: 'Contact', href: '/#contact', current: false },
 ]
 
@@ -114,8 +114,8 @@ function Header() {
   
 ) : (
   <div className="flex flex-col md:flex-row">
-    <Link to='/register-agent' className="text-xs md:text-md  mr-4 font-bold hover:text-gray-400">Agent Register</Link> 
-    <Link to='/register-user' className=" text-sm md:text-md font-bold hover:text-gray-400">User Register</Link>
+    {/* <Link to='/register-agent' className="text-xs md:text-md  mr-4 font-bold hover:text-gray-400">Agent Register</Link>  */}
+    <Link to='/login' className=" text-sm md:text-[16px] bg-sky-400 rounded-md p-2 transition text-white font-bold hover:bg-sky-700">Login</Link>
   </div>
 )}
 
