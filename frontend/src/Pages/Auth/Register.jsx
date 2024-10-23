@@ -58,9 +58,9 @@ const RegisterPage = () => {
                 {/* <div className="w-[80%] md:w-[50%]">
                     <img src={Log} alt="" className="w-full" />
                 </div> */}
-                <div className="bg-white py-8 px-2 shadow  sm:rounded-lg sm:px-10 w-[90%] md:w-[80%] md:w-[50%]">
+                <div className="bg-white py-8 px-2 shadow  sm:rounded-lg sm:px-10 w-[90%] md:w-[80%] ">
                     <form className="space-y-6 w-[100%] flex flex-col items-center" onSubmit={handleSubmit}>
-                        <div className="w-[80%] md:w-[80%] md:w-[50%]" >
+                        <div className="w-[80%]  md:w-[50%]" >
                             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                                 User name
                             </label>
@@ -142,7 +142,7 @@ const RegisterPage = () => {
                                 />
                             </div>
                         </div>
-                        <div className="w-[80%] md:w-[50%]" >
+                        {/* <div className="w-[80%] md:w-[50%]" >
                             <label htmlFor="country" className="block text-sm font-medium text-gray-700">
                                 Country(Nigeria,Togo & Benin Avaiable for now )
 
@@ -164,18 +164,9 @@ const RegisterPage = () => {
 
                                     required
                                 />
-                                {/* <input
-                                    id="country"
-                                    name="password"
-                                    type="password"
-                                    required
-                                    className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border-gray-300 h-10 rounded-md"
-                                    placeholder="Your password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                /> */}
+                            
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* <div className="w-[80%] md:w-[50%]" >
                             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">

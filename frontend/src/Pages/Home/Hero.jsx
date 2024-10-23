@@ -81,7 +81,7 @@ function Hero() {
           <div className="bg-sky-400  lg:w-[10%] px-4 p-1 md:p-2 text-center text-white font-bold">Rent</div>
           <div className="grid gap-4  p-2 md:p-4 bg-white w-full ">
             <div className="flex flex-col w-[90%]  justify-between md:w-[80%] md:flex-row gap-10">
-              <div className="  flex justify-center border w-[100%] lg:w-[50%] h-10 rounded-lg ">
+              <div className="  flex justify-center  w-[100%] lg:w-[50%] h-10 rounded-lg ">
                 <input
                   list="countries"
                   id="country"

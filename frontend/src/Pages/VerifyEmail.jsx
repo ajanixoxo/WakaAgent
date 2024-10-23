@@ -47,23 +47,24 @@ function VerifyEmail() {
 		e.preventDefault();
 		const verificationCode = code.join("");
 		try {
-			await verifyEmail(verificationCode);
+			const data = await verifyEmail(verificationCode);
 
+			// Check if agent or user is updated
+			if (data.agent) {
+				console.log("Agent Verified", data.agent);
+				navigate("/agent-dashboard")  // Add delay before navigating
 
-			if (user) {
-				// Navigate to user dashboard
+			} else if (data.user) {
+				console.log("User Verified", data.user);
 				navigate("/user-dashboard");
-			} else if (agent) {
-				// Navigate to agent dashboard
-				navigate("/agent-dashboard");
 			}
-
 
 			toast.success("Email verified successfully");
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
 
 	// Auto submit when all fields are filled
 	useEffect(() => {

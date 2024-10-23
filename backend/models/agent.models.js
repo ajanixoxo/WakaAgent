@@ -20,7 +20,7 @@ const agentSchema = new mongoose.Schema({
     },
     country: {
         type: "String",
-        required: true
+        // required: true
     },
     lastLogin: {
         type: Date,
@@ -28,7 +28,7 @@ const agentSchema = new mongoose.Schema({
     },
     nin: {
         type: Number,
-        required: true
+        // required: true
     },
     image: {
         data: {
@@ -55,7 +55,7 @@ const agentSchema = new mongoose.Schema({
     },
     area: {
         type: Array,
-        required: true
+        // required: true
     },
     isVerified: {
         type: Boolean,

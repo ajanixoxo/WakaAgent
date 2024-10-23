@@ -10,7 +10,8 @@ dotenv.config()
 
 
 export const signup = async (req, res) => {
-    const { email, password, name, phoneNumber, country } = req.body;
+    const { email, password, name, phoneNumber } = req.body;
+     let country ="Nigeria"
     try {
         if (!email || !password || !name) {
             throw new Error("All fields are required")
@@ -55,7 +56,8 @@ export const signup = async (req, res) => {
     }
 }
 export const signupAgent = async (req, res) => {
-    const { email, password, name,  phoneNumber, country, nin, area  } = req.body;
+    const { email, password, name,  phoneNumber   } = req.body;
+    let country ="Nigeria"
     try {
         if (!email || !password || !name) {
             throw new Error("All fields are required")
@@ -74,8 +76,6 @@ export const signupAgent = async (req, res) => {
             name,
             phoneNumber,
             country, 
-            nin,
-            area,
             verificationToken,
             verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000 //24hours
         })
@@ -86,7 +86,7 @@ export const signupAgent = async (req, res) => {
         await sendVerificationEmail(agent.email, verificationToken)
         res.status(201).json({
             success: true,
-            message: "Agent User Created Successfully",
+            message: "Agent  Created Successfully",
             agent: {
                 ...agent.doc,
                 password: undefined

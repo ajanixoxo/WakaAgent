@@ -105,7 +105,7 @@ function Login() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{' '}
             <Link to="/register-user" className="font-semibold leading-6 text-purple-500 hover:text-purple-500">
-              Creat an account
+              Create an account
             </Link>
           </p>
         </div>

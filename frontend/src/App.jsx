@@ -8,7 +8,6 @@ import Footer from './Components/Footer'
 import Home from './Pages/Home/Home'
 import Login from './Pages/Auth/Login'
 import RegisterPage from './Pages/Auth/Register'
-import RegisterUser from './Pages/Auth/RegisterUser'
 import VerifyEmail from './Pages/VerifyEmail'
 import UserDashboard from './Pages/UserDashboard';
 import RegisterAgent from './Pages/Auth/RegisterAgent'

@@ -25,11 +25,11 @@ export const useAuthStore = create((set) => ({
 			throw error;
 		}
 	},
-	signupAgent: async (email, password, name, phoneNumber, country, nin, area) => {
+	signupAgent: async (email, password, name, phoneNumber) => {
 		set({ isLoading: true, error: null });
 		try {
-			console.log("from auth", email, password, name, phoneNumber, country, nin, area)
-			const response = await axios.post(`${API_URL}/signup-agent`, { email, password, name, phoneNumber, country, nin, area });
+			console.log("from auth", email, password, name, phoneNumber)
+			const response = await axios.post(`${API_URL}/signup-agent`, { email, password, name, phoneNumber,});
 			console.log("This is ", response)
 			set({ agent: response.data.agent, isAuthenticated: true, isLoading: false });
 		} catch (error) {
