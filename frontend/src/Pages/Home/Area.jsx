@@ -46,14 +46,14 @@ const AreaCard = ({ title, imageURL, agentList, delay }) => {
 
 function Area() {
   const areaDetails = [
-    { imageURL: '/assets/images/place/lagos.jpg', title: "Lagos", agentList: "100+", delay: "250" },
-    { imageURL: '/assets/images/place/ibadan.jpg', title: "Ibadan", agentList: "100+", delay: "350" },
-    { imageURL: '/assets/images/place/AB.jpg', title: "Abeokuta", agentList: "100+", delay: "450" },
-    { imageURL: '/assets/images/place/Ondo.jpg', title: "Ondo", agentList: "100+", delay: "550" },
-    { imageURL: '/assets/images/place/PH.jpg', title: "Port Harcourt", agentList: "100+", delay: "650" },
-    { imageURL: '/assets/images/place/Abuja.jpg', title: "Abuja", agentList: "100+", delay: "750" },
-    { imageURL: '/assets/images/place/osun.jpg', title: "Osun", agentList: "100+", delay: "850" },
-    { imageURL: '/assets/images/place/ilorin.jpg', title: "Ilorin", agentList: "100+", delay: "950" },
+    { imageURL: '/assets/images/place/lagos.jpg', title: "Lagos", agentList: "Centre of Excellence", delay: "250" },
+    { imageURL: '/assets/images/place/ibadan.jpg', title: "Oyo", agentList: "Pace setter", delay: "350" },
+    { imageURL: '/assets/images/place/AB.jpg', title: "Ogun", agentList: "Gateway State", delay: "450" },
+    { imageURL: '/assets/images/place/Ondo.jpg', title: "Ondo", agentList: "Sunshine", delay: "550" },
+    { imageURL: '/assets/images/place/PH.jpg', title: "Rivers", agentList: "Treasure Base of the nation", delay: "650" },
+    { imageURL: '/assets/images/place/Abuja.jpg', title: "Abuja", agentList: "Federal capital city", delay: "750" },
+    { imageURL: '/assets/images/place/osun.jpg', title: "Osun", agentList: "Land of Virtue", delay: "850" },
+    { imageURL: '/assets/images/place/ilorin.jpg', title: "Kwara", agentList: "State of Harmony", delay: "950" },
   ];
 
   return (
