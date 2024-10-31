@@ -384,7 +384,7 @@ function Hero() {
             </div>
 
             <button type="submit" className="bg-sky-600 hover:bg-sky-800 rounded w-28 text-white p-2 font-bold mx-auto"
-            >Search</button>
+            >Request Agent</button>
 
           </div>
         </form>
