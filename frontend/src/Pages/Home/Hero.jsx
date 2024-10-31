@@ -134,8 +134,8 @@ function Hero() {
                 <div className="lg:w-1/2">
                   <input type="text" placeholder='State/City'
                     className="w-full  p-2 focus:outline-none focus:bg-gray-100"
-                    value={(e) => e.target.value}
-                    onChange={stateChange} />
+
+                  />
 
                 </div>
                 <div className="lg:w-1/2">
@@ -220,22 +220,82 @@ function Hero() {
                         </div>
                         <div className="flex flex-col lg:flex-row gap-2 w-full">
                           <div className="lg:w-1/2">
-                          <h3 className="font-bold">Furnishing</h3>
-             <select className="p-2 border w-full lg:w-[70%]">
-               <option value="apartment">Newly Built</option>
-               <option value="selfcon">Renovated</option>
-              <option value="office">Old Building</option>
+                            <h3 className="font-bold">Furnishing</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="apartment">Newly Built</option>
+                              <option value="selfcon">Renovated</option>
+                              <option value="office">Old Building</option>
 
-             </select>
+                            </select>
                           </div>
                           <div className="lg:w-1/2">
                             <h3 className="font-bold">Property Condition</h3>
                             <select className="p-2 border w-full lg:w-[70%]">
-               <option value="apartment">Newly Built</option>
-              <option value="selfcon">Renovated</option>
-              <option value="office">Old Building</option>
+                              <option value="apartment">Newly Built</option>
+                              <option value="selfcon">Renovated</option>
+                              <option value="office">Old Building</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Location Proximity</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="1">Proximity to key areas (e.g., schools, markets, hospitals, transport hubs)</option>
+                              <option value="2">Distance from the city center
+                              </option>
 
-             </select>
+
+                            </select>
+                          </div>
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Lease Duration:
+                            </h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="apartment">Short-term lease (monthly)
+
+                              </option>
+                              <option value="selfcon">Long-term lease (annual)
+                              </option>
+
+
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Accessibility</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="1">Wheelchair accessible
+                              </option>
+                              <option value="2">Near public transportation
+                              </option>
+                              <option value="2">Road condition (e.g., tarred, untarred)
+
+                              </option>
+
+
+                            </select>
+                          </div>
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">. Extra Features:
+
+                            </h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="apartment">Balcony
+
+                              </option>
+                              <option value="selfcon">Garden
+                              </option>
+                              <option value="selfcon">Swimming pool
+                              </option>
+                              <option value="selfcon">Gym
+                              </option>
+                              <option value="selfcon">Laundry Service
+                              </option>
+
+
+                            </select>
                           </div>
                         </div>
                       </div>
@@ -251,6 +311,7 @@ function Hero() {
                           <select className="p-2 border w-full lg:w-[70%]">
                             <option>Shop</option>
                             <option>Warehouse</option>
+                            <option>Office</option>
                           </select>
                         </div>
                         <div className="lg:w-1/2">
@@ -261,6 +322,51 @@ function Hero() {
                           </select>
                         </div>
                       </div>
+                      <div className="flex flex-col lg:flex-row gap-2 w-full">
+                        <div className="lg:w-1/2">
+                          <h3 className="font-bold">Size</h3>
+                          <select className="p-2 border w-full lg:w-[70%]">
+                            <option>Small</option>
+                            <option>Medium</option>
+                            <option>Large</option>
+                            <option>Square Footage</option>
+                          </select>
+                        </div>
+                        <div className="lg:w-1/2">
+                          <h3 className="font-bold">Location Proximity</h3>
+                          <select className="p-2 border w-full lg:w-[70%]">
+                          <option value="1"> Schools</option>
+              <option value="1">Markets,</option>
+              <option value="1">Hospitals</option>
+              <option value="1">Transport hubs</option>
+              <option value="2">Distance from the city center    </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Maximum Price</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="1">50,000</option>
+                              <option value="2">70,000</option>
+                              <option value="3">120,000</option>
+                              <option value="4">150,000</option>
+                              <option value="5">200,000</option>
+
+                            </select>
+                          </div>
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Minimum Price</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="">350,000</option>
+                              <option value="selfcon">500,000</option>
+                              <option value="office">650,000</option>
+                              <option value="shop">800,0000</option>
+                              <option value="flat">1,000,000</option>
+
+                            </select>
+                          </div>
+                        </div>
                       {/* Additional Commercial Options */}
                     </>
                   )}

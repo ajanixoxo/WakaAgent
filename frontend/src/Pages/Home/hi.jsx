@@ -105,7 +105,10 @@
           <div className="lg:w-1/2">
             <h3 className="font-bold">Location Proximity</h3>
             <select className="p-2 border w-full lg:w-[70%]">
-              <option value="1">Proximity to key areas (e.g., schools, markets, hospitals, transport hubs)</option>
+              <option value="1"> Schools</option>
+              <option value="1">Markets,</option>
+              <option value="1">Hospitals</option>
+              <option value="1">Transport hubs</option>
               <option value="2">Distance from the city center
               </option>
 
