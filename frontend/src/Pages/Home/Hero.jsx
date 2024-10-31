@@ -134,7 +134,7 @@ function Hero() {
                 <div className="lg:w-1/2">
                   <input type="text" placeholder='State/City'
                     className="w-full  p-2 focus:outline-none focus:bg-gray-100"
-                    value={selectedTitle}
+                    value={(e) => e.target.value}
                     onChange={stateChange} />
 
                 </div>
