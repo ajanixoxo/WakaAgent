@@ -1,8 +1,11 @@
 .hero{
-    background: linear-gradient(#00000038, #0000003d),url("/assets/images/slider/bg-hero.jpg")
+    background: linear-gradient(#35343458, #9cd1efaf),url("/assets/images/slider/bg-hero.jpg")
    
     
     
+}
+.hero form{
+    background-color: #a3a0a000
 }
 .h1{
     font-family:"Average Sans"

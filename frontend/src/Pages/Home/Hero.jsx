@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { GetAreaState } from './../../store/GetArea';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { updateInputValue } from '../../store/action';
+
 
 function Hero() {
   const [selectedCountry, setSelectedCountry] = useState('Nigeria');
   const [showRentalOptions, setShowRentalOptions] = useState(false); // Add state to toggle rental options visibility
-  const selectedTitle = useSelector((state) => state.selectedTitle || "");
-
+  const selectedTitle = useSelector((state) => state.selectedTitle);
+  const [rentalType, setRentalType] = useState(''); // State to track rental type selection
+  // const title = useSelector((state) => state.title);  // Access the current input value from Redux
+  const dispatch = useDispatch();
 
   const [preferences, setPreferences] = useState({
     waterSupply: false,
@@ -33,7 +37,7 @@ function Hero() {
     topFloor: false,
     petFriendly: false,
   });
-
+  console.log(selectedTitle)
   const handleChange = (e) => {
     const { name, checked } = e.target;
     setPreferences(prev => ({
@@ -48,16 +52,30 @@ function Hero() {
     // Add form submission logic here
   };
 
+  const stateChange = (e) => {
+    dispatch(updateInputValue(e.target.value));
+
+
+  };
+  const handleRenterTypeChange = (type) => {
+    setRenterType(type);
+  };
+
+
   const handleCountryChange = (e) => {
     setSelectedCountry(e.target.value);
   };
   const handleAddRentalChoice = () => {
     setShowRentalOptions(!showRentalOptions); // Toggle visibility of rental options
   };
+  const selectRentalType = (type) => {
+    setRentalType(type);
+  };
+
 
   return (
 
-    <div className="hero w-full flex items-center justify-center  h-max lg:h-full  bg-center bg-cover" id="hero"
+    <div className="hero w-full flex items-start justify-center  h-max lg:h-full  bg-center bg-cover" id="hero"
       data-aos="zoom-in"
       data-aos-offset="200"
       data-aos-delay="50"
@@ -77,11 +95,28 @@ function Hero() {
             Simplify Your Rental Search with Agentwaka—Just ₦2,000!
           </p>
         </div>
-        <form className="grid w-[100%] lg:w-[70%] p-1 md:p-4 ">
+        <form className="grid w-[100%] lg:w-[100%] p-1 md:p-4 ">
           <div className="bg-sky-400  lg:w-[10%] px-4 p-1 md:p-2 text-center text-white font-bold">Rent</div>
-          <div className="grid gap-4  p-2 md:p-4 bg-white w-full ">
-            <div className="flex flex-col w-[90%]  justify-between md:w-[80%] md:flex-row gap-10">
-              <div className="  flex justify-center  w-[100%] lg:w-[50%] h-10 rounded-lg ">
+          <div className="grid gap-4 bg-slate-100  p-2 md:p-4 w-full ">
+            <div className="flex  justify-center gap-5 items-center">
+              <button
+                type="button"
+                className={`p-2 rounded ${rentalType === 'Residential' ? 'bg-sky-600 text-white' : 'bg-gray-200'}`}
+                onClick={() => selectRentalType('Residential')}
+              >
+                Residential
+              </button>
+              <button
+                type="button"
+                className={`p-2 rounded ${rentalType === 'Commercial' ? 'bg-sky-600 text-white' : 'bg-gray-200'}`}
+                onClick={() => selectRentalType('Commercial')}
+              >
+                Commercial
+              </button>
+
+            </div>
+            <div className="flex flex-col w-[90%]  justify-center items-center md:w-full  gap-10">
+              <div className="  flex justify-center border bg-white  outline-sky-500 gap-2 items-center w-[100%] lg:w-[50%]  ">
                 <input
                   list="countries"
                   id="country"
@@ -89,305 +124,160 @@ function Hero() {
                   onChange={handleCountryChange}
                   placeholder="Select a country"
                   readOnly
-                  className="w-full lg:w-[300px] focus:outline-sky-500 pl-2 rounded-lg"
+                  className="w-full lg:w-[300px] p-2 focus:outline-none "
                 />
+                🇳🇬
 
 
               </div>
-              <div className=" flex gap-5  justify-between  w-[100%] lg:w-[80%] h-10 rounded-lg ">
-                <div>
-                <input type="text" placeholder='State/City'
-                  className="w-full lg:w-[300px]   rounded-lg   focus:outline-none focus:border-none" value={selectedTitle || ""} />
-                  <div className="bg-blue-500 w-30px h-1"></div>
+              <div className=" flex gap-5  items-center justify-center w-[100%] lg:w-1/2 h-10 rounded-lg ">
+                <div className="lg:w-1/2">
+                  <input type="text" placeholder='State/City'
+                    className="w-full  p-2 focus:outline-none focus:bg-gray-100"
+                    value={selectedTitle}
+                    onChange={stateChange} />
+
                 </div>
-              <div>
-              <input type="text" placeholder='Area ' className=" w-full lg:w-[300px]   rounded-lg   focus:outline-none focus:border-none" />
-              <div className="bg-blue-500 w-30px h-1"></div>
+                <div className="lg:w-1/2">
+                  <input type="text" placeholder='Area ' className=" w-full p-2  focus:bg-gray-100 focus:outline-none" />
+
+
+                </div>
 
               </div>
+              {showRentalOptions && (
+                <div className="mt-4 p-4 bg-gray-100 border rounded-md grid gap-4 w-full">
+                  {rentalType === 'Residential' && (
+                    <>
+                      {/* Residential Options */}
+                      <div className="grid gap-4">
+                        <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Property Type</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option>Apartment</option>
+                              <option>House</option>
+                              <option>Flat</option>
+                            </select>
+                          </div>
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Bedroom Count</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option>1 Bedroom</option>
+                              <option>2 Bedrooms</option>
+                              <option>3 Bedrooms</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Maximum Price</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="1">50,000</option>
+                              <option value="2">70,000</option>
+                              <option value="3">120,000</option>
+                              <option value="4">150,000</option>
+                              <option value="5">200,000</option>
 
-              </div>
-            
+                            </select>
+                          </div>
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Minimum Price</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="">350,000</option>
+                              <option value="selfcon">500,000</option>
+                              <option value="office">650,000</option>
+                              <option value="shop">800,0000</option>
+                              <option value="flat">1,000,000</option>
+
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Bedroom Amount</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="1">1 Bedroom</option>
+                              <option value="2">2 Bedrooms</option>
+                              <option value="3">3 Bedrooms</option>
+                              <option value="4">4 Bedrooms</option>
+                              <option value="5">5 Bedrooms</option>
+                              <option value="5">7 Bedrooms</option>
+                              <option value="5">8 and more Bedrooms</option>
+                            </select>
+                          </div>
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Type of Rental</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+                              <option value="apartment">Apartment</option>
+                              <option value="selfcon">Self-Contained</option>
+                              <option value="office">Office</option>
+                              <option value="shop">Shop</option>
+                              <option value="flat">Flat</option>
+                              <option value="shortlet">Shortlet</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="lg:w-1/2">
+                          <h3 className="font-bold">Furnishing</h3>
+             <select className="p-2 border w-full lg:w-[70%]">
+               <option value="apartment">Newly Built</option>
+               <option value="selfcon">Renovated</option>
+              <option value="office">Old Building</option>
+
+             </select>
+                          </div>
+                          <div className="lg:w-1/2">
+                            <h3 className="font-bold">Property Condition</h3>
+                            <select className="p-2 border w-full lg:w-[70%]">
+               <option value="apartment">Newly Built</option>
+              <option value="selfcon">Renovated</option>
+              <option value="office">Old Building</option>
+
+             </select>
+                          </div>
+                        </div>
+                      </div>
+                      {/* Additional Residential Options */}
+                    </>
+                  )}
+                  {rentalType === 'Commercial' && (
+                    <>
+                      {/* Commercial Options */}
+                      <div className="flex flex-col lg:flex-row gap-2 w-full">
+                        <div className="lg:w-1/2">
+                          <h3 className="font-bold">Property Type</h3>
+                          <select className="p-2 border w-full lg:w-[70%]">
+                            <option>Shop</option>
+                            <option>Warehouse</option>
+                          </select>
+                        </div>
+                        <div className="lg:w-1/2">
+                          <h3 className="font-bold">Business Type</h3>
+                          <select className="p-2 border w-full lg:w-[70%]">
+                            <option>Clothing</option>
+                            <option>Electronics</option>
+                          </select>
+                        </div>
+                      </div>
+                      {/* Additional Commercial Options */}
+                    </>
+                  )}
+                </div>
+              )}
 
             </div>
 
             <div>
-              <div onClick={handleAddRentalChoice} className="bg-sky-700 hover:bg-sky-800 w-max rounded text-white p-2 font-bold">
-              More
+              <div onClick={handleAddRentalChoice} className="bg-sky-600 hover:bg-sky-800 w-max rounded text-white p-2 font-bold">
+                More
               </div>
 
               {/* <textarea type="text" placeholder='Enter Your Preferred Description for the house you are looking for' rows="4" className="border focus:outline-sky-500 p-2 w-full lg:w-[70%]" /> */}
             </div>
-            {showRentalOptions && (
-              <div className="mt-4 p-4 bg-gray-100 border rounded-md grid gap-4">
-                {/* <div className="grid gap-2">
-                  <h3 className="font-bold">Max and Minimum Price</h3>
-                  <div className="flex gap-5">
-                  <select className="p-2 border w-full lg:w-[40%]">
-                    <option value="1">50,000</option>
-                    <option value="2">70,000</option>
-                    <option value="3">120,000</option>
-                    <option value="4">150,000</option>
-                    <option value="5">200,000 </option>
-                  </select>
-                  
-                  <select className="p-2 border w-full lg:w-[40%]">
-                    <option value="1">350,000</option>
-                    <option value="2">500,000</option>
-                    <option value="3">650,000</option>
-                    <option value="4">800,0000</option>
-                    <option value="5">1,000,000</option>
-                  </select>
-                  </div>
-             
-                </div> */}
 
-                <div className="grid gap-2">
-                  <div className="flex flex-col lg:flex-row gap-2 w-full">
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Maximum Price</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="1">50,000</option>
-                        <option value="2">70,000</option>
-                        <option value="3">120,000</option>
-                        <option value="4">150,000</option>
-                        <option value="5">200,000</option>
-
-                      </select>
-                    </div>
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Minimum Price</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="">350,000</option>
-                        <option value="selfcon">500,000</option>
-                        <option value="office">650,000</option>
-                        <option value="shop">800,0000</option>
-                        <option value="flat">1,000,000</option>
-
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex flex-col lg:flex-row gap-2 w-full">
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Bedroom Amount</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="1">1 Bedroom</option>
-                        <option value="2">2 Bedrooms</option>
-                        <option value="3">3 Bedrooms</option>
-                        <option value="4">4 Bedrooms</option>
-                        <option value="5">5 Bedrooms</option>
-                        <option value="5">7 Bedrooms</option>
-                        <option value="5">8 and more Bedrooms</option>
-                      </select>
-                    </div>
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Type of Rental</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="apartment">Apartment</option>
-                        <option value="selfcon">Self-Contained</option>
-                        <option value="office">Office</option>
-                        <option value="shop">Shop</option>
-                        <option value="flat">Flat</option>
-                        <option value="shortlet">Shortlet</option>
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex flex-col lg:flex-row gap-2 w-full">
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Furnishing</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="1">Fully Furnished</option>
-                        <option value="2">Semi Furnished</option>
-                        <option value="3">Unfurnished</option>
-
-                      </select>
-                    </div>
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Property Condition</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="apartment">Newly Built</option>
-                        <option value="selfcon">Renovated</option>
-                        <option value="office">Old Building</option>
-
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex flex-col lg:flex-row gap-2 w-full">
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Location Proximity</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="1">Proximity to key areas (e.g., schools, markets, hospitals, transport hubs)</option>
-                        <option value="2">Distance from the city center
-                        </option>
-
-
-                      </select>
-                    </div>
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Lease Duration:
-                      </h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="apartment">Short-term lease (monthly)
-
-                        </option>
-                        <option value="selfcon">Long-term lease (annual)
-                        </option>
-
-
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex flex-col lg:flex-row gap-2 w-full">
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Accessibility</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="1">Wheelchair accessible
-                        </option>
-                        <option value="2">Near public transportation
-                        </option>
-                        <option value="2">Road condition (e.g., tarred, untarred)
-
-                        </option>
-
-
-                      </select>
-                    </div>
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">. Extra Features:
-
-                      </h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="apartment">Balcony
-
-                        </option>
-                        <option value="selfcon">Garden
-                        </option>
-                        <option value="selfcon">Swimming pool
-                        </option>
-                        <option value="selfcon">Gym
-                        </option>
-                        <option value="selfcon">Laundry Service
-                        </option>
-
-
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex flex-col lg:flex-row gap-2 w-full">
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Preferred Floor(for apartments)</h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="1">Ground floor</option>
-                        <option value="2">Middle floor </option>
-                        <option value="2">Top floors                        </option>
-
-
-                      </select>
-                    </div>
-                    <div className="lg:w-1/2">
-                      <h3 className="font-bold">Pet-Friendly:
-
-                      </h3>
-                      <select className="p-2 border w-full lg:w-[70%]">
-                        <option value="apartment">Yes
-
-
-
-
-                        </option>
-                        <option value="selfcon">No
-                        </option>
-
-
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-
-
-
-
-                <div className="grid gap-2">
-                  <h3 className="font-bold">Facilities/Utilites</h3>
-                  <div className="flex gap-2 flex-wrap">
-
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="waterSupply"
-                        checked={preferences.waterSupply}
-                        onChange={handleChange}
-                      />
-                      Water supply (e.g., borehole, public water)
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="powerSupply"
-                        checked={preferences.powerSupply}
-                        onChange={handleChange}
-                      />
-                      Power supply (e.g., generator, inverter)
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="securityFeatures"
-                        checked={preferences.securityFeatures}
-                        onChange={handleChange}
-                      />
-                      Security features (e.g., gated community, CCTV, guards)
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="parkingSpace"
-                        checked={preferences.parkingSpace}
-                        onChange={handleChange}
-                      />
-                      Parking space availability
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="internetAccess"
-                        checked={preferences.internetAccess}
-                        onChange={handleChange}
-                      />
-                      Internet access
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="airConditioning"
-                        checked={preferences.airConditioning}
-                        onChange={handleChange}
-                      />
-                      Air conditioning/heating
-                    </label>
-                  </div>
-                </div>
-
-                {/* Add more options as needed */}
-              </div>
-            )}
-            <button type="submit" className="bg-sky-500 hover:bg-sky-800 rounded-lg w-28 text-white p-2 font-bold mx-auto"
+            <button type="submit" className="bg-sky-600 hover:bg-sky-800 rounded w-28 text-white p-2 font-bold mx-auto"
             >Search</button>
 
           </div>
