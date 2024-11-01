@@ -101,17 +101,18 @@ function Hero() {
             <div className="flex  justify-center gap-5 items-center">
               <button
                 type="button"
-                className={`p-2 rounded ${rentalType === 'Residential' ? 'bg-sky-600 text-white' : 'bg-gray-200'}`}
+                className={`p-2 hover:bg-sky-600 hover:text-white  ${rentalType === 'Residential' ? 'bg-sky-700 text-white' : 'bg-gray-200'}`}
                 onClick={() => selectRentalType('Residential')}
               >
-                Residential
+                Residential Use
               </button>
+              <p>Or</p>
               <button
                 type="button"
-                className={`p-2 rounded ${rentalType === 'Commercial' ? 'bg-sky-600 text-white' : 'bg-gray-200'}`}
+                className={`p-2  hover:bg-sky-600 hover:text-white ${rentalType === 'Commercial' ? 'bg-sky-700 text-white' : 'bg-gray-200'}`}
                 onClick={() => selectRentalType('Commercial')}
               >
-                Commercial
+                Commercial Use
               </button>
 
             </div>
@@ -130,7 +131,7 @@ function Hero() {
 
 
               </div>
-              <div className=" flex gap-5  items-center justify-center w-[100%] lg:w-1/2 h-10 rounded-lg ">
+              <div className=" flex gap-5  items-center justify-center w-[100%] lg:w-1/2 h-10  ">
                 <div className="lg:w-1/2">
                   <input type="text" placeholder='State/City'
                     className="w-full  p-2 focus:outline-none focus:bg-gray-100"
@@ -146,7 +147,7 @@ function Hero() {
 
               </div>
               {showRentalOptions && (
-                <div className="mt-4 p-4 bg-gray-100 border rounded-md grid gap-4 w-full">
+                <div className="mt-4 p-4 bg-gray-100 border  grid gap-4 w-full">
                   {rentalType === 'Residential' && (
                     <>
                       {/* Residential Options */}
@@ -376,14 +377,14 @@ function Hero() {
             </div>
 
             <div>
-              <div onClick={handleAddRentalChoice} className="bg-sky-600 hover:bg-sky-800 w-max rounded text-white p-2 font-bold">
+              <div onClick={handleAddRentalChoice} className="bg-sky-600 hover:bg-sky-800 w-max  text-white p-2 font-bold">
                 More
               </div>
 
               {/* <textarea type="text" placeholder='Enter Your Preferred Description for the house you are looking for' rows="4" className="border focus:outline-sky-500 p-2 w-full lg:w-[70%]" /> */}
             </div>
 
-            <button type="submit" className="bg-sky-600 hover:bg-sky-800 rounded w-28 text-white p-2 font-bold mx-auto"
+            <button type="submit" className="bg-sky-600 hover:bg-sky-800  text-white p-2 font-bold mx-auto"
             >Request Agent</button>
 
           </div>

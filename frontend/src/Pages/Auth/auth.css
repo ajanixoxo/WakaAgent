@@ -1,0 +1,5 @@
+.auth-bg{
+    background: url('/public/assets/images/slider/about.jpg');
+    background-position: center;
+    background-size: cover;
+}

@@ -34,7 +34,7 @@ function Header() {
   }, [checkAuth])
     return (
         <>
- <Disclosure as="nav" className="bg-white sticky">
+ <Disclosure as="nav" className="bg-gray-200  sticky">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -89,7 +89,7 @@ function Header() {
       <MenuButton className="relative flex rounded-full p-2 text-sm  border-sky-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-800">
         <span className="absolute -inset-1.5" />
         <span className="sr-only">Open user menu</span>
-    <Link to='/user-dashboard' className=" text-sm md:text-[16px] rounded-md p-2 transition text-white font-bold "><UserIcon className="text-sky-400 hover:text-sky-800"/></Link>
+    <Link to='/user-dashboard' className=" text-sm md:text-[16px] rounded-md p-2 transition text-white font-bold "><UserIcon className="text-black hover:text-gray-800"/></Link>
         
       </MenuButton>
     </div>
@@ -99,7 +99,10 @@ function Header() {
     >
       <MenuItem>
         <Link to="/user-dashboard" className="block px-4 py-2 text-sm text-black data-[focus]:bg-gray-500">
-        <p  className="font-bold text-xs md:text-md">Hi, {(user || agent) ? user.name : agent.name}</p>
+        <p className="font-bold text-xs md:text-md">
+  Hi, {(user || agent) ? (user ? user.name : agent.name) : "User"}
+</p>
+
         Your Profile
         </Link>
       </MenuItem>
@@ -127,7 +130,7 @@ function Header() {
 ) : (
   <div className="flex flex-col md:flex-row">
     {/* <Link to='/register-agent' className="text-xs md:text-md  mr-4 font-bold hover:text-gray-400">Agent Register</Link>  */}
-    <Link to='/login-user' className=" text-sm md:text-[16px] rounded-md p-2 transition text-white font-bold "><UserIcon className="text-sky-400 hover:text-sky-800"/></Link>
+    <Link to='/login-user' className=" text-sm md:text-[16px] rounded-md p-2 transition text-white font-bold "><UserIcon className="text-black hover:text-gray-800"/></Link>
   </div>
 )}
 
