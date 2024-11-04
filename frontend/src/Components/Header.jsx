@@ -5,7 +5,7 @@ import { useAuthStore } from "../store/authStore";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { UserIcon } from 'lucide-react';
-import Waka from '/assets/images/logo/waka-logo.png'
+import Waka from '/assets/images/logo/logo.png'
 
 const navigation = [
   { name: 'Home', href: '/#', current: true },
