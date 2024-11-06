@@ -48,7 +48,7 @@ function Header() {
               <img
                 alt="agent waka"
                 src={Waka}
-                className="w-20 "
+                className="w-36 lg:w-20 "
               />
             </div>
             </DisclosureButton>
