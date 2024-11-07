@@ -85,7 +85,7 @@ function AgentDashboard() {
 
         <div className="grid md:grid-cols-[300px_1fr] gap-6">
           {/* Profile Section */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white w-full lg:w-full rounded-lg shadow p-6">
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="relative">
                 <img
@@ -130,21 +130,21 @@ function AgentDashboard() {
 
             {/* Tabs */}
             <div className="bg-white rounded-lg shadow">
-              <div className="flex border-b">
+              <div className="flex border-b ">
                 <button
-                  className={`flex items-center gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'requests' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
+                  className={`flex flex-col md:flex-row items-center gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'requests' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
                   onClick={() => setActiveTab('requests')}
                 >
                 <NotebookText />  Requests
                 </button>
                 <button
-                  className={`flex items-center gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'completed' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
+                  className={`flex  flex-col  md:flex-row items-center gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'completed' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
                   onClick={() => setActiveTab('completed')}
                 >
                  <Handshake />  Completed
                 </button>
                 <button
-                  className={`flex items-center gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'feedback' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
+                  className={`flex flex-col md:flex-row items-center gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'feedback' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
                   onClick={() => setActiveTab('feedback')}
                 >
                  <ThumbsUp /> Feedback
@@ -268,9 +268,9 @@ function AgentDashboard() {
             {/* Subscription Plan */}
             <div className="bg-white rounded-lg shadow p-4">
               <h3 className="text-lg font-semibold mb-4">SUBSCRIPTION PLAN</h3>
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div className="w-[90%] md:w-1/2 h-32 bg-gray-200 rounded-lg"></div>
-                <div className="w-[] md:w-1/2 flex flex-col items-center gap-4">
+              <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                <div className="w-full md:w-1/2 h-32 bg-gray-200 rounded-lg"></div>
+                <div className="w-full md:w-1/2 flex flex-col items-center gap-4">
                   <div className="w-full h-24 bg-gray-200 rounded-lg"></div>
                   <button className="w-full md:w-auto px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">SUBSCRIBE</button>
                 </div>
