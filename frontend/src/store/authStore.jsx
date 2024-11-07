@@ -29,7 +29,7 @@ export const useAuthStore = create((set) => ({
 		set({ isLoading: true, error: null });
 		try {
 			console.log("from auth", email, password, name, phoneNumber)
-			const response = await axios.post(`${API_URL}/signup-agent`, { email, password, name, phoneNumber,});
+			const response = await axios.post(`${API_URL}/signup-agent`, { email, password, name, phoneNumber, });
 			console.log("This is ", response)
 			set({ agent: response.data.agent, isAuthenticated: true, isLoading: false });
 		} catch (error) {
@@ -43,6 +43,7 @@ export const useAuthStore = create((set) => ({
 			const response = await axios.post(`${API_URL}/login`, { email, password });
 			set({
 				isAuthenticated: true,
+				agent: response.data.agent,
 				user: response.data.user,
 				error: null,
 				isLoading: false,
@@ -54,10 +55,17 @@ export const useAuthStore = create((set) => ({
 	},
 
 	logout: async () => {
+
 		set({ isLoading: true, error: null });
+		const response = await axios.post(`${API_URL}/logout`);
 		try {
-			await axios.post(`${API_URL}/logout`);
-			set({ user: null, isAuthenticated: false, error: null, isLoading: false });
+
+			if (response.data.user) {
+				set({ user: null, isAuthenticated: false, error: null, isLoading: false });
+			} else if (response.data.agent) {
+				set({ agent: null, isAuthenticated: false, error: null, isLoading: false });
+
+			}
 		} catch (error) {
 			set({ error: "Error logging out", isLoading: false });
 			throw error;
@@ -67,7 +75,7 @@ export const useAuthStore = create((set) => ({
 		set({ isLoading: true, error: null });
 		try {
 			const response = await axios.post(`${API_URL}/verify-email`, { code });
-            
+
 			const verifiedUser = response.data.user || response.data.agent;
 			if (response.data.user) {
 				set({ user: response.data.user, isAuthenticated: true, isLoading: false });
@@ -85,7 +93,15 @@ export const useAuthStore = create((set) => ({
 		set({ isCheckingAuth: true, error: null });
 		try {
 			const response = await axios.get(`${API_URL}/check-auth`);
-			set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
+			// Check if response contains a user or an agent and update state accordingly
+			if (response.data.agent) {
+				set({ agent: response.data.agent, user: null, isAuthenticated: true, isCheckingAuth: false });
+			} else if (response.data.user) {
+				set({ user: response.data.user, agent: null, isAuthenticated: true, isCheckingAuth: false });
+			} else {
+				// If neither user nor agent is present, set authenticated to false
+				set({ user: null, agent: null, isAuthenticated: false, isCheckingAuth: false });
+			}
 		} catch (error) {
 			set({ error: null, isCheckingAuth: false, isAuthenticated: false });
 		}

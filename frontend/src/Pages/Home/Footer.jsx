@@ -1,7 +1,7 @@
 import React from 'react';
 import { Home, Facebook, Twitter, Linkedin, Instagram, ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Waka from '/assets/images/logo/waka-logo.png'
+import Waka from '/assets/images/logo/logo.png'
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({
@@ -15,7 +15,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="flex items-center mb-4 md:mb-0">
-            <img src={Waka} alt="logo" className="w-20" />
+            <img src={Waka} alt="logo" className="w-32 lg:w-36"  />
             <div>
               <h2 className="text-xl font-bold hidden"> Agent Waka</h2>
               <p className="text-smtext-sky- hidden">Rental Service</p>
