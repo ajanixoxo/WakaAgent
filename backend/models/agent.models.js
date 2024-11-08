@@ -22,6 +22,9 @@ const agentSchema = new mongoose.Schema({
         type: "String",
         // required: true
     },
+    state:{
+        type: "String"
+    },
     lastLogin: {
         type: Date,
         default: Date.now

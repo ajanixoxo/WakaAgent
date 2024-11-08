@@ -1,6 +1,6 @@
  import express from "express"
 // import dotenv from "dotenv"
-import {login, signup, logout, verifyEmail, forgotPassword, resetPassword, checkAuth, signupAgent} from '../controllers/auth.controller.js'
+import {login, signup, logout, verifyEmail, forgotPassword, resetPassword, checkAuth, signupAgent, updateAgent} from '../controllers/auth.controller.js'
 import { verifyToken } from "../middleware/verifyToken.js";
 
  const router = express.Router();
@@ -11,6 +11,8 @@ router.post("/signup",signup)
 router.post("/signup-agent",signupAgent)
 router.post("/login", login)
 router.post("/logout", logout)
+router.post("agent-verfication", updateAgent)
+
 
 router.post("/verify-email", verifyEmail)
 router.post("/forgot-password", forgotPassword)

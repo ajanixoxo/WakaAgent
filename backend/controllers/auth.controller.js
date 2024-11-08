@@ -11,7 +11,7 @@ dotenv.config()
 
 export const signup = async (req, res) => {
     const { email, password, name, phoneNumber } = req.body;
-     let country ="Nigeria"
+    let country = "Nigeria"
     try {
         if (!email || !password || !name) {
             throw new Error("All fields are required")
@@ -56,8 +56,8 @@ export const signup = async (req, res) => {
     }
 }
 export const signupAgent = async (req, res) => {
-    const { email, password, name,  phoneNumber   } = req.body;
-    let country ="Nigeria"
+    const { email, password, name, phoneNumber } = req.body;
+    let country = "Nigeria"
     try {
         if (!email || !password || !name) {
             throw new Error("All fields are required")
@@ -75,7 +75,7 @@ export const signupAgent = async (req, res) => {
             password: hashedPassword,
             name,
             phoneNumber,
-            country, 
+            country,
             verificationToken,
             verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000 //24hours
         })
@@ -95,7 +95,7 @@ export const signupAgent = async (req, res) => {
         })
 
     } catch (error) {
-        
+
         return res.status(400).json({ success: false, message: error.message })
 
 
@@ -214,7 +214,7 @@ export const login = async (req, res) => {
                 }
             });
         }
-      
+
     } catch (error) {
         console.log("Error in login", error);
         res.status(400).json({ success: false, message: error.message });
@@ -280,14 +280,14 @@ export const checkAuth = async (req, res) => {
         if (agent) {
             return res.status(200).json({ success: true, agent })
         }
-        
+
         const user = await User.findById(req.userId).select("-password")
         if (user) {
             return res.status(200).json({ success: true, user })
         }
 
         // If no user is found, try to find an agent
-        
+
 
         // If neither user nor agent is found
         return res.status(400).json({ success: false, message: "User or Agent not found" })
@@ -296,4 +296,37 @@ export const checkAuth = async (req, res) => {
         res.status(400).json({ success: false, message: error.message })
     }
 }
+export const updateAgent = async (req, res) => {
+    try {
+        const { nin, area, state, country } = req.body;
+
+        // Find the agent by ID (req.userId should be set by authentication middleware)
+        const agent = await Agent.findById(req.userId);
+
+        if (!agent) {
+            return res.status(404).json({ success: false, message: "Agent not found" });
+        }
+
+        // Update fields if they exist in the request body
+        if (nin) agent.nin = nin;
+        if (area) agent.area = area;
+        if (state) agent.state = state;
+        if (country) agent.country = country;
+
+        // Save updated agent information
+        await agent.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Agent profile updated successfully",
+            agent: {
+                ...agent._doc,
+                password: undefined,  // Hide the password from the response
+            }
+        });
+    } catch (error) {
+        console.error("Error updating agent profile:", error);
+        res.status(500).json({ success: false, message: "Failed to update agent profile" });
+    }
+};
 
