@@ -275,14 +275,25 @@ export const resetPassword = async (req, res) => {
 }
 export const checkAuth = async (req, res) => {
     try {
-        const user = await User.findById(req.userId).select("-password")
-        if (!user) {
-            return res.status(400).json({success: false, message:"User not found"})
+        // First, try to find a user
+        const agent = await Agent.findById(req.userId).select("-password")
+        if (agent) {
+            return res.status(200).json({ success: true, agent })
         }
-        res.status(200).json({success: true, user })
-    } catch(error) {
+        
+        const user = await User.findById(req.userId).select("-password")
+        if (user) {
+            return res.status(200).json({ success: true, user })
+        }
+
+        // If no user is found, try to find an agent
+        
+
+        // If neither user nor agent is found
+        return res.status(400).json({ success: false, message: "User or Agent not found" })
+    } catch (error) {
         console.log("Error in checkAuth", error)
         res.status(400).json({ success: false, message: error.message })
+    }
+}
 
-}
-}

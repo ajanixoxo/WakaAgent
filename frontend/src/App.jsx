@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import { Navigate } from 'react-router-dom'
-
 import { Routes, Route } from 'react-router-dom'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
@@ -13,12 +11,16 @@ import UserDashboard from './Pages/UserDashboard';
 import RegisterAgent from './Pages/Auth/RegisterAgent'
 import AgentDashboard from './Pages/AgentDashboard'
 import { useAuthStore } from './store/authStore'
-import toast,{ Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import './App.css'
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, user, agent } = useAuthStore();
+const ProtectedRoute = ({ children, allowedRole }) => {
+  const { isAuthenticated, user, agent, isCheckingAuth } = useAuthStore();
+  
+  if (isCheckingAuth) {
+    return <div>Loading...</div> // Or a proper loading component
+  }
 
   // If not authenticated, redirect to login
   if (!isAuthenticated) {
@@ -26,13 +28,14 @@ const ProtectedRoute = ({ children }) => {
   }
 
   // If the authenticated entity is a user and not verified, redirect to verify email
-  if (user && !user.isVerified) {
-    return <Navigate to='/verify-email' replace />;
+  const currentUser = user || agent
+
+  if (!currentUser.isVerified) {
+    return <Navigate to='/verify-email' replace />
   }
 
-  // If the authenticated entity is an agent and not verified, redirect to verify email
-  if (agent && !agent.isVerified) {
-    return <Navigate to='/verify-email' replace />;
+  if (allowedRole && currentUser.role !== allowedRole) {
+    return <Navigate to='/' replace />
   }
 
   // If authenticated and verified, render children
@@ -40,16 +43,21 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const RedirectAuthenticatedUser = ({ children }) => {
-  const { isAuthenticated, user, agent } = useAuthStore();
+  const { isAuthenticated, user, agent, isCheckingAuth } = useAuthStore();
 
-  // Redirect authenticated and verified users to user dashboard
-  if (isAuthenticated && user && user.isVerified) {
-    return <Navigate to='/user-dashboard' replace />;
+  if (isCheckingAuth) {
+    return <div>Loading...</div> // Or a proper loading component
   }
 
-  // Redirect authenticated and verified agents to agent dashboard
-  if (isAuthenticated && agent && agent.isVerified) {
-    return <Navigate to='/agent-dashboard' replace />;
+
+  if (isAuthenticated) { 
+    if (agent && agent.isVerified) {
+      return <Navigate to='/agent-dashboard' replace />
+    }
+    if (user && user.isVerified) {
+      return <Navigate to='/user-dashboard' replace />
+    }
+   
   }
 
   // If neither is authenticated or verified, render children

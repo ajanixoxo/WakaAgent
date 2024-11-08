@@ -37,6 +37,8 @@ function Header() {
   }
   const handleLogout = () => {
     logout();
+    location.reload();
+
   };
 
   useEffect(() => {
@@ -192,7 +194,7 @@ function Header() {
               </Link>
             </li>
             <li>
-              <button onClick={handleLogout} className="block relative z-[20] px-4 py-2 text-smt ext-black data-[focus]:bg-gray-500">
+              <button onClick={() => handleLogout()} className="block relative z-[20] px-4 py-2 text-smt ext-black data-[focus]:bg-gray-500">
                 Sign out
               </button>
             </li>
