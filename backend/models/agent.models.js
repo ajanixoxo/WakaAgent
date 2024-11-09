@@ -15,7 +15,7 @@ const agentSchema = new mongoose.Schema({
         required: true
     },
     phoneNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     country: {
@@ -30,7 +30,7 @@ const agentSchema = new mongoose.Schema({
         default: Date.now
     },
     nin: {
-        type: Number,
+        type: String,
         // required: true
     },
     image: {
@@ -51,7 +51,7 @@ const agentSchema = new mongoose.Schema({
         
         }
         ,
-      },
+    },
     verified: {
         type: Boolean,
         default: false

@@ -130,16 +130,18 @@ export const useAuthStore = create((set) => ({
 			throw error;
 		}
 	},
-	updateAgentProfile: async (nin, area, state, country) => {
+	updateAgentProfile: async (country, state, nin, imageFile, areaLocations, agentId) => {
 		set({ isLoading: true, error: null });
 		try {
 			const response = await axios.post(`${API_URL}/agent-verification`, {
-				nin,
-				area,
+				country,
 				state,
-				country
+				nin,
+				image: imageFile,
+				area: areaLocations,
+				agentId
 			});
-			
+
 			if (response.data.agent) {
 				// Update the state with the updated agent info
 				set({ agent: response.data.agent, isLoading: false });

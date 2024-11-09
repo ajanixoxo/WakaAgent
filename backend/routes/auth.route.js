@@ -11,7 +11,7 @@ router.post("/signup",signup)
 router.post("/signup-agent",signupAgent)
 router.post("/login", login)
 router.post("/logout", logout)
-router.post("agent-verfication", updateAgent)
+router.post("/agent-verification", updateAgent)
 
 
 router.post("/verify-email", verifyEmail)

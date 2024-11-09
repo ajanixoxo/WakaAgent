@@ -2,6 +2,7 @@ import { User } from '../models/user.models.js'
 import { Agent } from '../models/agent.models.js'
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
 import { sendVerificationEmail, sendWelcomeEmail, sendPasswordRestEmail, sendResetSuccessEmail } from '../mailtrap/emails.js';
+import cloudinary from '../utils/cloundinary.js'
 
 import bcryptjs from 'bcryptjs'
 import crypto from 'crypto'
@@ -297,23 +298,54 @@ export const checkAuth = async (req, res) => {
     }
 }
 export const updateAgent = async (req, res) => {
-    try {
-        const { nin, area, state, country } = req.body;
 
-        // Find the agent by ID (req.userId should be set by authentication middleware)
-        const agent = await Agent.findById(req.userId);
+    try {
+        const { country, state, nin, image, area, agentId } = req.body;
+        const agent = await Agent.findById(agentId);
+
+        console.log("This is agent id ", agent)
 
         if (!agent) {
+            console.log("This is agent id ", agent)
             return res.status(404).json({ success: false, message: "Agent not found" });
+
         }
 
-        // Update fields if they exist in the request body
+        // Update basic fields if provided
         if (nin) agent.nin = nin;
         if (area) agent.area = area;
         if (state) agent.state = state;
         if (country) agent.country = country;
+        agent.verified = true;
 
-        // Save updated agent information
+        // If an image file is included in the request
+        if (req.file) {
+            const result = await new Promise((resolve, reject) => {
+                const upload = cloudinary.uploader.upload_stream(
+                    {
+                        resource_type: 'image',
+                        folder: 'agent_images' // Specify folder for agent images
+                    },
+                    (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result);
+                        }
+                    }
+                );
+                // Stream the file buffer to Cloudinary
+                upload.end(req.file.buffer);
+            });
+
+            // Update the agent’s image URL in the database
+            agent.image = {
+                url: result.secure_url,
+                // public_id: result.public_id,
+            };
+        }
+
+        // Save the updated agent information
         await agent.save();
 
         res.status(200).json({
@@ -321,7 +353,7 @@ export const updateAgent = async (req, res) => {
             message: "Agent profile updated successfully",
             agent: {
                 ...agent._doc,
-                password: undefined,  // Hide the password from the response
+                password: undefined, // Hide password in the response
             }
         });
     } catch (error) {
@@ -329,4 +361,3 @@ export const updateAgent = async (req, res) => {
         res.status(500).json({ success: false, message: "Failed to update agent profile" });
     }
 };
-

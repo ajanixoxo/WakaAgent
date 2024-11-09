@@ -44,9 +44,7 @@ const EmojiRating = ({ rating }) => {
     </div>
   );
 };
-const handleFormFilling = () => {
 
-}
 const FeedbackSlider = ({ value, color }) => (
   <div className="w-full h-2 bg-gray-200 rounded-full mb-4">
     <div
@@ -58,11 +56,20 @@ const FeedbackSlider = ({ value, color }) => (
 
 function AgentDashboard() {
 
-  const { agent, logout } = useAuthStore();
   const [activeTab, setActiveTab] = useState('Form');
   const [nin, setNin] = useState("")
+  const [state, setState] = useState("")
+  const [country, setCountry] = useState('Nigeria')
   const [areaLocations, setAreaLocations] = useState(['']);
-  const { signupAgent, isLoading } = useAuthStore();
+  const { updateAgentProfile, isLoading, agent } = useAuthStore();
+  const [imageFile, setImageFile] = useState(null);
+  const agentId = agent._id
+
+
+  const handleFileSelect = (file) => {
+    setImageFile(file);
+  };
+
   const feedbacks = [
     {
       id: 1,
@@ -81,9 +88,6 @@ function AgentDashboard() {
   ];
 
 
-  const handleLogout = () => {
-    logout();
-  };
   const handleAddLocation = () => {
     if (areaLocations.length < 3) {
       setAreaLocations([...areaLocations, '']);
@@ -101,6 +105,19 @@ function AgentDashboard() {
     updatedLocations[index] = value;
     setAreaLocations(updatedLocations);
   };
+
+  const handleFormFilling = async (e) => {
+    e.preventDefault();
+    console.log("Form submitted ", state, country, nin, imageFile, areaLocations, agentId)
+    try {
+      await updateAgentProfile(country, state, nin, imageFile, areaLocations, agentId)
+      toast.success("Successfully update agent profile");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error when updating  agent profile");
+
+    }
+  }
   return (
     <div className="min-h-full">
 
@@ -117,9 +134,16 @@ function AgentDashboard() {
                   alt="Agent"
                   className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
                 />
-                <div className="absolute -bottom-2 -right-2 bg-blue-500 rounded-full p-1">
-                  <CheckCircleIcon />
-                </div>
+                {agent.verified === true ?
+                  <div className="absolute -bottom-2 -right-2 bg-blue-500 rounded-full p-1">
+                    <CheckCircleIcon />
+                  </div> :
+                  <div className="absolute -bottom-2 -right-6 bg-red-500 rounded p-1">
+
+                    <span className="text-white p-2">Not Verified</span>
+                  </div>
+                }
+
               </div>
 
               <div className="space-y-2">
@@ -128,18 +152,22 @@ function AgentDashboard() {
 
                 <p className="text-base text-gray-600">{(agent.verified == true) ? "Verified Agent" : "Fill the required field below to get verified"} </p>
                 <div className="text-sm space-y-1 text-gray-700">
-                  <p>Age: 34</p>
-                  <p>State of Origin: Osun state</p>
-                  <p>Operational Base:</p>
-                  <p>Lagos Island</p>
+                  {/* <p>Age: 34</p> */}
+                  <p>State of Origin:{agent.state ? agent.state : "No State of Orgin Provided"}</p>
+                  <p >Operational Base:
+                  {agent.area.map((item, index) => (
+    <p key={index} style={{ marginRight: "10px" }} className="font-semibold">{item}</p>
+  ))}
+                  </p>
+                  {/* <p>Lagos Island</p>
                   <p>AJah</p>
-                  <p>Maryland</p>
+                  <p>Maryland</p> */}
                 </div>
               </div>
 
               <div className="flex gap-2 w-full">
                 <button className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">Edit Profile</button>
-                <button className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Edit Profile</button>
+                <button className="flex-1 px-4 py-2 bg-[#133B5D] text-white rounded hover:bg-blue-700 transition">Suscription</button>
               </div>
             </div>
           </div>
@@ -194,7 +222,7 @@ function AgentDashboard() {
                         <div className="flex flex-col md:flex-row items-center justify-center gap-2 w-full">
                           <div className=" grid w-full md:grid-cols-2  gap-4 place-items-center lg:p-8">
                             <div className="w-full md:w-[50%]">
-                              <ImageUpload />
+                              <ImageUpload onFileSelect={handleFileSelect} />
                             </div>
                             <div className="w-full">
                               <div className="w-full md:w-[100%]">
@@ -218,9 +246,55 @@ function AgentDashboard() {
                                     onChange={(e) => setNin(e.target.value)}
                                   />
                                 </div>
+                                <input type="hidden" value={agentId} />
+                              </div>
+                              <div className="w-full md:w-[100%]">
+                                <div className="flex items-center justify-between">
+                                  <label htmlFor="state" className="block text-sm font-medium leading-6 p-2 text-gray-900">
+                                    State
+                                  </label>
+                                </div>
+                                <div className="mt-1 relative rounded-md shadow-sm">
+                                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <UserPen className="h-5 w-5 text-gray-400" />
+                                  </div>
+                                  <input
+                                    id="state"
+                                    name="state"
+                                    type="state"
+                                    required
+                                    className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border border-black h-10 rounded-md"
+                                    placeholder="e.g Lagos, Oyo, Abjua"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="w-full md:w-[100%]">
+                                <div className="flex items-center justify-between">
+                                  <label htmlFor="country" className="block text-sm font-medium leading-6 p-2 text-gray-900">
+                                    Country
+                                  </label>
+                                </div>
+                                <div className="mt-1 relative rounded-md shadow-sm">
+                                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <UserPen className="h-5 w-5 text-gray-400" />
+                                  </div>
+                                  <input
+                                    id="country"
+                                    name="country"
+                                    type="text"
+                                    required
+                                    className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border border-black h-10 rounded-md"
+                                    placeholder="Nigeria"
+                                    value={country}
+
+                                    readOnly
+                                  />
+                                </div>
                               </div>
 
-                              <div className="w-full grid gap-4 md:w-[100%]">
+                              <div className="w-full mt-2 grid gap-4 md:w-[100%]">
                                 <label className="block text-sm font-medium leading-6 text-gray-900">Area of Location</label>
                                 {areaLocations.map((location, index) => (
                                   <div key={index} className="w-full flex items-center space-x-2">
@@ -265,10 +339,10 @@ function AgentDashboard() {
                         <div className="">
                           <button
                             type="submit"
-                            className="flex w-1/2 mx-auto bg-blue-700 justify-center rounded-md p-2 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                            className="flex w-1/2 lg:w-[30%] lg:p-4 mx-auto bg-[#133B5D] justify-center rounded-md p-2 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             disabled={isLoading}
                           >
-                            {isLoading ? <Loader className='animate-spin mx-auto' size={24} /> : "Sign Up"}
+                            {isLoading ? <Loader className='animate-spin mx-auto' size={24} /> : "Update"}
                           </button>
                         </div>
                       </form>
@@ -389,7 +463,7 @@ function AgentDashboard() {
             </div>
 
             {/* Subscription Plan */}
-            <div className="bg-white rounded-lg shadow p-4">
+            {/* <div className="bg-white rounded-lg shadow p-4">
               <h3 className="text-lg font-semibold mb-4">SUBSCRIPTION PLAN</h3>
               <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                 <div className="w-full md:w-1/2 h-32 bg-gray-200 rounded-lg"></div>
@@ -398,7 +472,7 @@ function AgentDashboard() {
                   <button className="w-full md:w-auto px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">SUBSCRIBE</button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
