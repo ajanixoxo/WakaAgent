@@ -4,6 +4,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { updateInputValue } from '../../store/action'
 import ArrowLeftRight from "/assets/images/logo/arrow-left-right.png"
 import NG from '/assets/images/logo/naija.png'
+import PreviewRequestModal from '../../Components/Preview-Request'
 
 export default function Hero() {
   const [selectedCountry, setSelectedCountry] = useState('Nigeria')
@@ -11,6 +12,7 @@ export default function Hero() {
   const [rentalType, setRentalType] = useState('')
   const [state, setState] = useState('')
   const [city, setCity] = useState('')
+  const [area, setArea] = useState('')
   const [formData, setFormData] = useState({
     use: '',
     maxPrice: '',
@@ -25,7 +27,7 @@ export default function Hero() {
     size: '',
     locationProximity: '',
   })
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const dispatch = useDispatch()
 
   const handleInputChange = (e) => {
@@ -61,6 +63,7 @@ export default function Hero() {
       rentalType,
       ...formData
     }
+    setIsModalOpen(true)
     console.log('All form data:', allData)
     // Here you would typically send this data to your backend
     // For example: sendToBackend(allData)
@@ -132,7 +135,24 @@ export default function Hero() {
                   />
                 </div>
               </div>
-
+              <div className="flex justify-between border bg-white outline-sky-500 gap-2 items-center px-2 w-[100%] lg:w-[90%]">
+                  <input 
+                    type="text" 
+                    placeholder='Preferred Area' 
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                    className="w-full lg:w-[80%] p-2 focus:outline-none focus:bg-sky-100"
+                    required
+                  />
+                </div>
+              <PreviewRequestModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        formData={formData}
+        selectedCountry={selectedCountry}
+        state={state}
+        city={city}
+      />
               {rentalType && (
                 <div className="w-full mt-4 p-4 flex flex-col mx-auto gap-4">
                   <div className="flex flex-col lg:flex-row gap-2 w-full">
@@ -370,10 +390,19 @@ export default function Hero() {
               )}
 
               <div className="flex w-full justify-between items-center">
-                <div onClick={handleAddRentalChoice} className="rounded-3xl bg-[#133B5D] hover:bg-sky-800 w-[100px] text-center text-white p-2 font-normal cursor-pointer">
+                <div onClick={handleAddRentalChoice} className="text-xs md:text-base rounded-3xl bg-[#133B5D] hover:bg-sky-800 w-[100px] text-center text-white p-2 font-normal cursor-pointer">
                   More
                 </div>
-                <button type="submit" className="rounded-3xl bg-[#133B5D] hover:bg-sky-800 text-white p-2 px-3 font-normal">
+                <button
+          type="submit"
+          className=" px-4 py-2 bg-[#133B5D] text-xs md:text-base  text-white rounded-3xl hover:bg-[#0f2d47]"
+        onClick={() => {
+
+        }}>
+          Preview Request
+        </button>
+
+                <button type="submit" className="rounded-3xl text-xs md:text-base bg-[#133B5D] hover:bg-sky-800 text-white p-2 px-3 font-normal">
                   Request Agent
                 </button>
               </div>

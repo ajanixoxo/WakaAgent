@@ -4,6 +4,7 @@ import User from '/assets/images/clients/client1.jpg'
 import { formatDate } from "../utils/Date";
 import toast, { Toaster } from 'react-hot-toast';
 import ImageUpload from '../Components/Image-Upload';
+import EditModal from '../Components/Modal';
 import { NotebookText, Handshake, ThumbsUp, BookOpenText, UserPen, Loader } from 'lucide-react'
 const StarIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -64,11 +65,17 @@ function AgentDashboard() {
   const { updateAgentProfile, isLoading, agent } = useAuthStore();
   const [imageFile, setImageFile] = useState(null);
   const agentId = agent._id
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
+
 
 
   const handleFileSelect = (file) => {
     setImageFile(file);
   };
+
 
   const feedbacks = [
     {
@@ -130,7 +137,7 @@ function AgentDashboard() {
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="relative">
                 <img
-                  src={User}
+                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
                   alt="Agent"
                   className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
                 />
@@ -155,9 +162,9 @@ function AgentDashboard() {
                   {/* <p>Age: 34</p> */}
                   <p>State of Origin:{agent.state ? agent.state : "No State of Orgin Provided"}</p>
                   <p >Operational Base:
-                  {agent.area.map((item, index) => (
-    <p key={index} style={{ marginRight: "10px" }} className="font-semibold">{item}</p>
-  ))}
+                    {agent.area.map((item, index) => (
+                      <p key={index} style={{ marginRight: "10px" }} className="font-semibold">{item}</p>
+                    ))}
                   </p>
                   {/* <p>Lagos Island</p>
                   <p>AJah</p>
@@ -166,11 +173,16 @@ function AgentDashboard() {
               </div>
 
               <div className="flex gap-2 w-full">
-                <button className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">Edit Profile</button>
+                <button className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+                  onClick={openModal}
+                >Edit Profile</button>
                 <button className="flex-1 px-4 py-2 bg-[#133B5D] text-white rounded hover:bg-blue-700 transition">Suscription</button>
               </div>
             </div>
           </div>
+          {isModalOpen && (
+            <EditModal isOpen={isModalOpen} onClose={closeModal} />
+          )}
 
           <div className="space-y-6">
             {/* Ratings */}
@@ -216,7 +228,7 @@ function AgentDashboard() {
                 <div className="">
 
 
-                  {activeTab === 'Form' ? (
+                  {activeTab === 'Form' && agent.verified === false ? (
                     <div className="w-full flex flex-col gap-5 justify-between items-center">
                       <form onSubmit={handleFormFilling} method="POST" className="space-y-6 p-2 w-[90%] md:w-[100%]">
                         <div className="flex flex-col md:flex-row items-center justify-center gap-2 w-full">
@@ -376,7 +388,7 @@ function AgentDashboard() {
                             <div className=" flex md:flex-col gap-5 items-center justify-between">
                               <div className="flex md:flex-col items-center gap-2">
                                 <img
-                                  src={User}
+                                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
                                   alt="Client"
                                   className="w-12 h-12 rounded-full"
                                 />
@@ -414,7 +426,7 @@ function AgentDashboard() {
                             <div className=" flex  md:flex-col gap-5 items-center justify-between">
                               <div className="flex md:flex-col items-center gap-2">
                                 <img
-                                  src={User}
+                                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
                                   alt="Client"
                                   className="w-12 h-12 rounded-full"
                                 />

@@ -181,7 +181,7 @@ function Header() {
           <ul className="relative  flex flex-col justify-center items-center ">
             {/* <li>Hi  {(user || agent) ? (user ? user.name : agent.name) : "User"}</li> */}
             <li className="">
-              <Link to="/user-dashboard" className="h-full flex flex-col justify-center px-4 text-center py-2 text-sm  text-black data-[focus]:bg-gray-500">
+              <Link to={user? "/user-dashboard": "/agent-dashboard" } className="h-full flex flex-col justify-center px-4 text-center py-2 text-sm  text-black data-[focus]:bg-gray-500">
                 <p className="font-bold text-sm md:text-md">
                   Hi, {(user || agent) ? (user ? user.name : agent.name) : "User"}
                 </p>

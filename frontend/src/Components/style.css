@@ -1,0 +1,5 @@
+.preview-bg{
+    background: url(assets/images/logo/logo.jpg);
+    background-size: cover;
+    background-position: center;
+}
