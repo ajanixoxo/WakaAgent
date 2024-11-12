@@ -17,7 +17,7 @@ function HowTo() {
         {
             icon: <Banknote className="w-8 h-8 text-sky-400" />,
             title: 'Pay and Connect',
-            description: 'For just ₦2000, you can connect with the agent and receive their contact details.',
+            description: 'For just ₦2000, you can connect with the agents and receive their contact details.',
             delay:"450"
         },
         {
