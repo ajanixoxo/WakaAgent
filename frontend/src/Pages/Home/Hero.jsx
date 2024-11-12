@@ -721,28 +721,7 @@ export default function Hero() {
                                 <option value="it_support">IT Support</option>
                               </select>
                             </div>
-                            <div className="w-full">
-                              <h3 className="font-bold">Occupancy Availability</h3>
-                              <select name="occupancyAvailability" value={formData.occupancyAvailability} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Occupancy</option>
-                                <option value="fully_vacant">Fully Vacant</option>
-                                <option value="partially_leased">Partially Leased</option>
-                                <option value="investment_with_tenants">Investment with Tenants</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col lg:flex-row gap-2 w-full">
-                            <div className="w-full">
-                              <h3 className="font-bold">Energy Efficiency</h3>
-                              <select name="energyEfficiency" value={formData.energyEfficiency} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Energy Efficiency</option>
-                                <option value="leed_certified">LEED Certified</option>
-                                <option value="green_building">Green Building</option>
-                                <option value="solar_power">Solar Power Availability</option>
-                              </select>
-                            </div>
-                            <div className="w-full">
+                           <div className="w-full">
                               <h3 className="font-bold">Additional Amenities</h3>
                               <select name="additionalAmenities" value={formData.additionalAmenities} onChange={handleInputChange} className="p-2 border w-full">
                                 <option value="">Select Amenities</option>
@@ -753,6 +732,8 @@ export default function Hero() {
                               </select>
                             </div>
                           </div>
+
+                        
 
                           <div className="flex flex-col lg:flex-row gap-2 w-full">
                             <div className="w-full">
@@ -777,17 +758,7 @@ export default function Hero() {
                             </div>
                           </div>
 
-                          <div className="flex flex-col lg:flex-row gap-2 w-full">
-                            <div className="w-full">
-                              <h3 className="font-bold">Lease Incentives</h3>
-                              <select name="leaseIncentives" value={formData.leaseIncentives} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Lease Incentives</option>
-                                <option value="tenant_improvement">Tenant Improvement Allowance</option>
-                                <option value="rent_free">Rent-Free Period</option>
-                                <option value="lease_renewal">Lease Renewal Options</option>
-                              </select>
-                            </div>
-                          </div>
+                         
                         </>
                       )}
                     </div>
