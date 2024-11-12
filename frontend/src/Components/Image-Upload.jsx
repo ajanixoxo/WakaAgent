@@ -18,7 +18,11 @@ function ImageUpload({onFileSelect}) {
                 {preview ? (
                     <img src={preview} alt="Preview" className="w-full h-full object-cover"  accept="image/*" onChange={handleFileChange} />
                 ) : (
-                    <span className="text-gray-400">Image Preview</span>
+                    <img
+                    src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                    alt="Agent"
+                    className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
+                  />
                 )}
             </div>
             <label className="flex items-center space-x-2 bg-[#133B5D] text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700">

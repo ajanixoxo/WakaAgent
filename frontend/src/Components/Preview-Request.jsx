@@ -1,7 +1,7 @@
 import React from 'react'
 import { X } from 'lucide-react'
 
-export default function PreviewRequestModal({ isOpen, onClose, formData, selectedCountry, state, city, area }) {
+export default function PreviewRequestModal({ isOpen, onClose, formData, selectedCountry, state, area }) {
   if (!isOpen) return null
 
   const formatLabel = (key) => {
@@ -27,7 +27,7 @@ export default function PreviewRequestModal({ isOpen, onClose, formData, selecte
             <X size={24} />
           </button>
         </div>
-        
+
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-160px)]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -37,17 +37,17 @@ export default function PreviewRequestModal({ isOpen, onClose, formData, selecte
                   <span className="font-medium">Country:</span> {selectedCountry}
                 </div>
                 <div>
-                  <span className="font-medium">State:</span> {renderValue(state)}
+                  <span className="font-medium">State Or City</span> {renderValue(state)}
                 </div>
-                <div>
+                {/* <div>
                   <span className="font-medium">City:</span> {renderValue(city)}
-                </div>
+                </div> */}
                 <div>
                   <span className="font-medium">Area:</span> {renderValue(area)}
                 </div>
               </div>
             </div>
-            
+
             {Object.entries(formData).map(([key, value]) => (
               <div key={key} className="bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-lg font-semibold mb-2 text-[#133B5D]">{formatLabel(key)}</h3>
@@ -55,8 +55,12 @@ export default function PreviewRequestModal({ isOpen, onClose, formData, selecte
               </div>
             ))}
           </div>
+          <p className="text-xs font-semibold">
+            All the information you have filled out will be sent directly to the agent via WhatsApp, ensuring they have a clear understanding of your rental needs. Additionally, the agent's profile and contact information will be shared with you through WhatsApp after payment is completed, and you can also access the agent’s profile on your dashboard.
+            Please review your details carefully to confirm they are correct, as this will help us make the best match for your requirements. The next screen will lead you to the payment process to finalize the connection.
+          </p>
         </div>
-        
+
         <div className="p-6 bg-gray-100 flex justify-end space-x-4">
           <button
             onClick={onClose}

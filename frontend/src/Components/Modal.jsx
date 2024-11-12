@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { XIcon } from 'lucide-react'
+import ImageUpload from './Image-Upload';
 
 export default function EditModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ export default function EditModal({ isOpen, onClose }) {
     phone: '',
     email: '',
   })
+  const [imageFile, setImageFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -15,7 +17,9 @@ export default function EditModal({ isOpen, onClose }) {
       [name]: value
     }))
   }
-
+  const handleFileSelect = (file) => {
+    setImageFile(file);
+  };
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log('Form data:', formData)
@@ -41,6 +45,10 @@ export default function EditModal({ isOpen, onClose }) {
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+            <ImageUpload onFileSelect={handleFileSelect} />
+           
+            </div>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                 Name
