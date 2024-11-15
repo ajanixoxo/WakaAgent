@@ -49,7 +49,24 @@ export default function Hero() {
     { state: "Taraba", capital: "Jalingo" },
     { state: "Yobe", capital: "Damaturu" },
     { state: "Zamfara", capital: "Gusau" },
-    { state: "Federal Capital Territory", capital: "Abuja" }
+    {
+      state: "Federal Capital Territory",
+      capital: "Abuja",
+      areas: [
+        "Wuse Zone 1", "Wuse Zone 2", "Wuse Zone 3", "Wuse Zone 4", "Wuse Zone 5", "Wuse Zone 6",
+        "Garki Area 1", "Garki Area 2", "Garki Area 3", "Garki Area 7", "Garki Area 8", "Garki Area 10", "Garki Area 11",
+        "Asokoro", "Maitama", "Central Area", "Utako", "Jabi", "Gwarimpa", "Kado", "Kubwa", "Lugbe", "Dawaki",
+        "Lokogoma", "Karu", "Nyanya", "Galadimawa", "Jahi", "Mpape", "Apo", "Life Camp", "Kaura", "Guzape", "Karmo",
+        "Durumi", "Dakibiyu", "Wuye", "Idu", "Katampe", "Jikoyi", "Karimu", "Mabushi", "Gwagwalada", "Bwari", "Kuje",
+        "Gosa", "Sabon Lugbe", "Gidan Mangoro", "Chika", "Apo Resettlement", "Pyakassa", "Dape", "Byazhin", "Sauka",
+        "Saburi", "Pegi", "Dei Dei", "Idu Industrial Area", "Shagari Quarters", "Tungan Maje", "Dutse Alhaji", "Karu Site",
+        "Apo Mechanic Village", "Masaka", "Giri", "Garki Village", "War College", "Police Quarters", "Games Village",
+        "Aviation Village", "Arab Road", "One Man Village", "Piwoyi", "Suleja", "Zuba", "Tungan Madaki", "Bwari Town",
+        "Gosa Village", "Sheka", "Gwagwa", "Kugbo", "Kagini", "Efab Estate", "Sunnyvale Estate", "Trademore Estate",
+        "Bricks City", "Sabon Gari", "Kuje Village", "Kaduna Road", "Anagada", "Madalla", "Jiwa", "Sabon Wuse",
+        "Yangoji", "Paiko Kore", "Abaji", "Rubochi", "Waru", "Wasa", "Gwagwa Estate"
+      ]
+    },
   ];
   const [formData, setFormData] = useState({
     use: '',
@@ -81,13 +98,16 @@ export default function Hero() {
     securityFeatures: '',
     leaseTerms: '',
     technologyInfrastructure: '',
-    occupancyAvailability: '',
-    energyEfficiency: '',
+ 
     additionalAmenities: '',
     businessSuitability: '',
     nearbyLandmarks: '',
     leaseIncentives: '',
   })
+  const selectedState = statesAndCities.find((item) => item.state === stateOrCity || item.capital === stateOrCity);
+
+  const [areaOptions, setAreaOptions] = useState(selectedState?.areas || []);
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const dispatch = useDispatch()
 
@@ -119,6 +139,7 @@ export default function Hero() {
     const allData = {
       country: selectedCountry,
       stateOrCity,
+      area,
       rentalType,
       ...formData
     }
@@ -174,13 +195,20 @@ export default function Hero() {
               </div>
               <div className="flex gap-5 items-center justify-center w-[100%] lg:w-[90%] h-10">
                 <div className="lg:w-full">
+                  {/* State or City Selection */}
                   <select
                     value={stateOrCity}
-                    onChange={(e) => setStateOrCity(e.target.value)}
+                    onChange={(e) => {
+                      const selectedState = statesAndCities.find(
+                        (item) => item.state === e.target.value || item.capital === e.target.value
+                      );
+                      setStateOrCity(e.target.value);
+                      setAreaOptions(selectedState?.areas || []);
+                    }}
                     className="w-full p-2 focus:outline-none focus:bg-sky-100"
                     required
                   >
-                    <option value="" disabled>Select State or City</option>
+                    <option value="" disabled>Select State </option>
                     <optgroup label="States">
                       {statesAndCities.map((item) => (
                         <option key={item.state} value={item.state}>
@@ -196,19 +224,29 @@ export default function Hero() {
                       ))}
                     </optgroup>
                   </select>
-
                 </div>
+
                 <div className="lg:w-full">
+                  {/* Area Input with Predefined Options */}
                   <input
-                    type="text"
-                    placeholder='Area'
+                    list="areas"
+                    placeholder="Type or select an area"
                     value={area}
                     onChange={(e) => setArea(e.target.value)}
                     className="w-full p-2 focus:bg-sky-100 focus:outline-none"
                     required
                   />
+                  <datalist id="areas">
+                    {areaOptions.map((area, index) => (
+                      <option key={index} value={area}  onChange={(e) => setArea(e.target.value)}>
+                        {area}
+                      </option>
+                    ))}
+                  </datalist>
                 </div>
               </div>
+
+
               {/* <div className="flex justify-between border bg-white outline-sky-500 gap-2 items-center px-2 w-[100%] lg:w-[90%]">
                   <input 
                     type="text" 
@@ -225,6 +263,7 @@ export default function Hero() {
                 formData={formData}
                 selectedCountry={selectedCountry}
                 state={stateOrCity}
+                area={area}
               // city={city}
               />
               {rentalType && (
@@ -365,7 +404,7 @@ export default function Hero() {
                             onChange={handleInputChange}
                             className="p-2 border w-full"
                           >
-                          <option value="">Select Property Type</option>
+                            <option value="">Select Property Type</option>
                             <option value="shop">Shop</option>
                             <option value="warehouse">Warehouse</option>
                             <option value="office">Office Space</option>
@@ -633,28 +672,6 @@ export default function Hero() {
                               </select>
                             </div>
                             <div className="w-full">
-                              <h3 className="font-bold">Building Class</h3>
-                              <select name="buildingClass" value={formData.buildingClass} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Building Class</option>
-                                <option value="A">Class A</option>
-                                <option value="B">Class B</option>
-                                <option value="C">Class C</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col lg:flex-row gap-2 w-full">
-                            <div className="w-full">
-                              <h3 className="font-bold">Layout Options</h3>
-                              <select name="layoutOptions" value={formData.layoutOptions} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Layout</option>
-                                <option value="open_plan">Open Floor Plan</option>
-                                <option value="cubicles">Cubicles</option>
-                                <option value="private_offices">Private Offices</option>
-                                <option value="loading_docks">Loading Docks</option>
-                              </select>
-                            </div>
-                            <div className="w-full">
                               <h3 className="font-bold">Zoning Type</h3>
                               <select name="zoningType" value={formData.zoningType} onChange={handleInputChange} className="p-2 border w-full">
                                 <option value="">Select Zoning Type</option>
@@ -666,6 +683,8 @@ export default function Hero() {
                             </div>
                           </div>
 
+                        
+
                           <div className="flex flex-col lg:flex-row gap-2 w-full">
                             <div className="w-full">
                               <h3 className="font-bold">Utilities Included</h3>
@@ -675,21 +694,9 @@ export default function Hero() {
                                 <option value="water">Water</option>
                                 <option value="internet">Internet</option>
                                 <option value="hvac">HVAC</option>
+                                <option value="All">All</option>
                               </select>
                             </div>
-                            <div className="w-full">
-                              <h3 className="font-bold">Parking Specifications</h3>
-                              <select name="parkingSpecifications" value={formData.parkingSpecifications} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Parking Options</option>
-                                <option value="reserved">Reserved Parking</option>
-                                <option value="visitor">Visitor Parking</option>
-                                <option value="valet">Valet Parking</option>
-                                <option value="ev_charging">EV Charging</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col lg:flex-row gap-2 w-full">
                             <div className="w-full">
                               <h3 className="font-bold">Security Features</h3>
                               <select name="securityFeatures" value={formData.securityFeatures} onChange={handleInputChange} className="p-2 border w-full">
@@ -697,6 +704,19 @@ export default function Hero() {
                                 <option value="cctv">CCTV Surveillance</option>
                                 <option value="security_personnel">24/7 Security Personnel</option>
                                 <option value="alarm_system">Alarm System</option>
+                              </select>
+                            </div>
+                         
+                          </div>
+
+                          <div className="flex flex-col lg:flex-row gap-2 w-full">
+                          <div className="w-full">
+                              <h3 className="font-bold">Technology Infrastructure</h3>
+                              <select name="technologyInfrastructure" value={formData.technologyInfrastructure} onChange={handleInputChange} className="p-2 border w-full">
+                                <option value="">Select Technology</option>
+                                <option value="fiber_optic">Fiber Optic Connectivity</option>
+                                <option value="teleconferencing">Teleconferencing Facilities</option>
+                                <option value="it_support">IT Support</option>
                               </select>
                             </div>
                             <div className="w-full">
@@ -711,29 +731,9 @@ export default function Hero() {
                             </div>
                           </div>
 
-                          <div className="flex flex-col lg:flex-row gap-2 w-full">
-                            <div className="w-full">
-                              <h3 className="font-bold">Technology Infrastructure</h3>
-                              <select name="technologyInfrastructure" value={formData.technologyInfrastructure} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Technology</option>
-                                <option value="fiber_optic">Fiber Optic Connectivity</option>
-                                <option value="teleconferencing">Teleconferencing Facilities</option>
-                                <option value="it_support">IT Support</option>
-                              </select>
-                            </div>
-                           <div className="w-full">
-                              <h3 className="font-bold">Additional Amenities</h3>
-                              <select name="additionalAmenities" value={formData.additionalAmenities} onChange={handleInputChange} className="p-2 border w-full">
-                                <option value="">Select Amenities</option>
-                                <option value="reception_area">Reception Area</option>
-                                <option value="conference_rooms">Conference Rooms</option>
-                                <option value="kitchen_pantry">Kitchen/Pantry</option>
-                                <option value="lounge">Lounge</option>
-                              </select>
-                            </div>
-                          </div>
-
                         
+
+
 
                           <div className="flex flex-col lg:flex-row gap-2 w-full">
                             <div className="w-full">
@@ -758,7 +758,7 @@ export default function Hero() {
                             </div>
                           </div>
 
-                         
+
                         </>
                       )}
                     </div>

@@ -18,6 +18,9 @@ export default function PreviewRequestModal({ isOpen, onClose, formData, selecte
     }
   }
 
+  // Filter formData to exclude empty or unspecified fields
+  const filteredFormData = Object.entries(formData).filter(([key, value]) => value && value !== 'Not specified')
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
       <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-xl">
@@ -37,27 +40,24 @@ export default function PreviewRequestModal({ isOpen, onClose, formData, selecte
                   <span className="font-medium">Country:</span> {selectedCountry}
                 </div>
                 <div>
-                  <span className="font-medium">State Or City</span> {renderValue(state)}
+                  <span className="font-medium">State Or City:</span> {renderValue(state)}
                 </div>
-                {/* <div>
-                  <span className="font-medium">City:</span> {renderValue(city)}
-                </div> */}
                 <div>
                   <span className="font-medium">Area:</span> {renderValue(area)}
                 </div>
               </div>
             </div>
 
-            {Object.entries(formData).map(([key, value]) => (
+            {filteredFormData.map(([key, value]) => (
               <div key={key} className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2 text-[#133B5D]">{formatLabel(key)}</h3>
-                <p className="text-gray-700">{renderValue(value)}</p>
+                <h3 className="text-base font-medium mb-2 text-[#133B5D]">{formatLabel(key)}</h3>
+                <p className="text-black text-xl font-semibold">{renderValue(value)}</p>
               </div>
             ))}
           </div>
-          <p className="text-xs font-semibold">
-            All the information you have filled out will be sent directly to the agent via WhatsApp, ensuring they have a clear understanding of your rental needs. Additionally, the agent's profile and contact information will be shared with you through WhatsApp after payment is completed, and you can also access the agent’s profile on your dashboard.
-            Please review your details carefully to confirm they are correct, as this will help us make the best match for your requirements. The next screen will lead you to the payment process to finalize the connection.
+          <p className="text-xs font-semibold text-red-600">
+            <b>NOTE:</b> All the information you have filled out will be sent directly to the agent via WhatsApp, ensuring they have a clear understanding of your rental needs. Additionally, the agent's profile and contact information will be shared with you through WhatsApp after payment is completed, and you can also access the agent’s profile on your dashboard.
+            Please review your details carefully to confirm they are correct, as this will help us make the best match for your requirements. The next screen will lead you to the payment process to finalize the connection.
           </p>
         </div>
 
@@ -70,7 +70,7 @@ export default function PreviewRequestModal({ isOpen, onClose, formData, selecte
           </button>
           <button
             onClick={() => {
-              console.log('Submitting request:', { selectedCountry, state, city, ...formData })
+              console.log('Submitting request:', { selectedCountry, state, area, ...formData })
               onClose()
             }}
             className="px-6 py-2 bg-[#133B5D] text-white rounded-full hover:bg-[#0f2d47] transition-colors font-medium"
