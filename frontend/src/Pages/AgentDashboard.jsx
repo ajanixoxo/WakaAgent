@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuthStore } from "../store/authStore";
-import User from '/assets/images/clients/client1.jpg'
-import { formatDate } from "../utils/Date";
-import toast, { Toaster } from 'react-hot-toast';
+import { requestMatching } from "../store/otherStore";
+import toast from 'react-hot-toast';
 import ImageUpload from '../Components/Image-Upload';
 import EditModal from '../Components/Modal';
 import { NotebookText, Handshake, ThumbsUp, BookOpenText, UserPen, Loader } from 'lucide-react'
@@ -66,10 +65,20 @@ function AgentDashboard() {
   const [imageFile, setImageFile] = useState(null);
   const agentId = agent._id
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { matchedUsers, fetchMatchedUsers } = requestMatching();
 
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
+
+  useEffect(() => {
+    if (agent?._id) {
+      fetchMatchedUsers(agent._id); // Fetch matched agents for the logged-in user
+    } else {
+      toast.error("User not logged in!");
+    }
+  }, [agent, fetchMatchedUsers]);
+  console.log("This is fetchedMatchAgents ", matchedUsers);
 
 
   const handleFileSelect = (file) => {
@@ -229,6 +238,7 @@ function AgentDashboard() {
 
 
                   {activeTab === 'Form' && agent.verified === false ? (
+
                     <div className="w-full flex flex-col gap-5 justify-between items-center">
                       <form onSubmit={handleFormFilling} method="POST" className="space-y-6 p-2 w-[90%] md:w-[100%]">
                         <div className="flex flex-col md:flex-row items-center justify-center gap-2 w-full">
@@ -362,84 +372,82 @@ function AgentDashboard() {
                     </div>
                   ) :
                     activeTab === 'requests' ? (
-                      <div className="grid gap-5">
-                        <div className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
-                          <h3 className="text-lg font-semibold mb-4">Property Description</h3>
-                          <div className="p-2 grid  gap-3 md:grid-cols-2">
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <h4 className="text-sm text-gray-600">PROPERTY TYPE</h4>
-                                <p className="font-medium">Duplex</p>
-                              </div>
-                              <div>
-                                <h4 className="text-sm text-gray-600">ROOMS</h4>
-                                <p className="font-medium">8 Bedrooms</p>
-                              </div>
-                              <div>
-                                <h4 className="text-sm text-gray-600">LOCATION</h4>
-                                <p className="font-medium">Lagos Island</p>
-                              </div>
-                              <div>
-                                <h4 className="text-sm text-gray-600">AMENITIES</h4>
-                                <p className="font-medium">All inclusive</p>
-                              </div>
-
-                            </div>
-                            <div className=" flex md:flex-col gap-5 items-center justify-between">
-                              <div className="flex md:flex-col items-center gap-2">
-                                <img
-                                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                                  alt="Client"
-                                  className="w-12 h-12 rounded-full"
-                                />
-                                <span className="font-medium text-sm">EMMANUEL JAMES</span>
-                              </div>
-                              <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition">
-                                <WhatsAppIcon />
-                              </button>
-                            </div>
+                      <div>
+                        {isLoading ? (
+                          <div className="flex justify-center items-center">
+                            <Loader />
 
                           </div>
-                        </div>
-                        <div className="p-2 border w-full lg:w-[80%] border-black rounded-lg">
-                          <h3 className="text-lg font-semibold mb-4">Property Description</h3>
-                          <div className="p-2 grid md:grid-cols-2 ">
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <h4 className="text-sm text-gray-600">PROPERTY TYPE</h4>
-                                <p className="font-medium">Duplex</p>
-                              </div>
-                              <div>
-                                <h4 className="text-sm text-gray-600">ROOMS</h4>
-                                <p className="font-medium">8 Bedrooms</p>
-                              </div>
-                              <div>
-                                <h4 className="text-sm text-gray-600">LOCATION</h4>
-                                <p className="font-medium">Lagos Island</p>
-                              </div>
-                              <div>
-                                <h4 className="text-sm text-gray-600">AMENITIES</h4>
-                                <p className="font-medium">All inclusive</p>
-                              </div>
+                        ) : (
+                          matchedUsers.length > 0 ? (
+                            <div className="grid gap-5">
+                              {matchedUsers.map((users) => (
+                                <div key={agent._id} className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
+                                  <h3 className="text-lg font-semibold mb-4">Property Description</h3>
+                                  <div className="p-2 grid  gap-3 md:grid-cols-2">
+                                    <div className="grid grid-cols-2 gap-4">
+                                      <div>
+                                        <h4 className="text-sm text-gray-600 ">PROPERTY Description</h4>
+                                        {Object.entries(users.requestDetails).map(([key, value], index) => (
+                                          <p className="font-medium" key={index}>
+                                            <strong>{key}:</strong> {value}
+                                          </p>
+                                        ))}
+
+                                      </div>
+                                      <div>
+                                        <h4 className="text-sm text-gray-600">Area </h4>
+                                        <p className="font-medium">{users.area}</p>
+                                      </div>
+                                      <div>
+                                        <h4 className="text-sm text-gray-600">LOCATION</h4>
+                                        <p className="font-medium">Lagos Island</p>
+                                      </div>
+                                      <div>
+                                        <h4 className="text-sm text-gray-600">AMENITIES</h4>
+                                        <p className="font-medium">All inclusive</p>
+                                      </div>
+
+                                    </div>
+                                    <div className=" flex md:flex-col gap-5 items-center justify-between">
+                                      <div className="flex md:flex-col items-center justify-center gap-2">
+                                        <img
+                                          src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                                          alt="Client"
+                                          className="w-12 h-12 rounded-full"
+                                        />
+                                        <div>
+                                          <h4 className="text-sm text-gray-600">Client Name</h4>
+                                          <p className="font-medium">{users.user.name}</p>
+                                        </div>
+                                        <div>
+                                          <h4 className="text-sm text-gray-600">Client Number</h4>
+                                          <p className="font-medium">{users.user.phoneNumber}</p>
+                                        </div>
+
+                                      </div>
+                                      <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition">
+                                        <WhatsAppIcon />
+                                      </button>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              ))}
+
+
 
                             </div>
-                            <div className=" flex  md:flex-col gap-5 items-center justify-between">
-                              <div className="flex md:flex-col items-center gap-2">
-                                <img
-                                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                                  alt="Client"
-                                  className="w-12 h-12 rounded-full"
-                                />
-                                <span className="font-medium text-sm">EMMANUEL JAMES</span>
-                              </div>
-                              <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition">
-                                <WhatsAppIcon />
-                              </button>
-                            </div>
+                          ) : (
+                            <p className="font-semibold text-center text-xl">No request yet</p>
+                          )
 
-                          </div>
-                        </div>
+
+                        )}
+
+
                       </div>
+
                     ) : activeTab === 'completed' ? (
                       <p className="text-center text-gray-500">No completed requests yet.</p>
                     ) : (

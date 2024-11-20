@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuthStore } from "../store/authStore";
+import { requestMatching } from "../store/otherStore";
 import { formatDate } from "../utils/Date";
 import toast, { Toaster } from 'react-hot-toast';
-import {NotebookText, History} from 'lucide-react'
+import { NotebookText, History, Loader } from 'lucide-react'
 import EditModal from '../Components/Modal';
+
 
 
 const StarIcon = () => (
@@ -25,57 +27,29 @@ const WhatsAppIcon = () => (
 );
 
 function UserDashboard() {
-
   const { user, logout } = useAuthStore();
-  const [activeTab, setActiveTab] = useState('Matched Requests');
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { matchedAgents, isLoading, fetchMatchedAgents } = requestMatching();
+  const [activeTab, setActiveTab] = useState("Matched Requests");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true)
-  const closeModal = () => setIsModalOpen(false)
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    if (user?._id) {
+      fetchMatchedAgents(user._id); // Fetch matched agents for the logged-in user
+    } else {
+      toast.error("User not logged in!");
+    }
+  }, [user, fetchMatchedAgents]);
+  console.log("This is fetchedMatchAgents ", matchedAgents);
 
 
-  const handleLogout = () => {
-    logout();
-  };
   return (
     <div className="min-h-full">
 
 
-      {/* <header className="bg-white shadow">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard </h1>
-      </div>
-    </header>
-    <main>
-      <div className="mx-auto max-w-7xl grid gap-4 px-4 py-6 sm:px-6 lg:px-8">
-        <div className="p-4 bg-sky-800 bg-opacity-50 rounded-lg border border-sky-700">
-        <h3 className='text-xl font-semibold text-blue-800 mb-3'>Profile Information</h3>
-					<p className='text-white'>Name: Welcome Client {user.name}</p>
-					<p className='text-white'>Email: {user.email}</p>
-        </div>
-        <div className="p-4 bg-sky-800 bg-opacity-50 rounded-lg border border-sky-700">
-        <h3 className='text-xl font-semibold text-blue-800 mb-3'>Account Activity</h3>
-					<p className='text-white'>
-						<span className='font-bold'>Joined: </span>
-						{new Date(user.createdAt).toLocaleDateString("en-US", {
-							year: "numeric",
-							month: "long",
-							day: "numeric",
-						})}
-					</p>
-					<p className='text-white'>
-						<span className='font-bold'>Last Login: </span>
-
-						{formatDate(user.lastLogin)}
-					</p>
-        </div>
-        <div>
-          <button
-          onClick={handleLogout}
-          className='w-full py-3 px-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white'>	Logout</button>
-        </div>
-      </div>
-    </main> */}
+    
       <div className="container mx-auto p-4 font-sans">
         <h1 className="text-2xl font-bold mb-6">User Dashboard</h1>
 
@@ -100,7 +74,7 @@ function UserDashboard() {
                 <div className="text-sm space-y-1 text-gray-700">
                   <p>Email: {user.email}</p>
                   <p>Phone Number: {user.phoneNumber}</p>
-                
+
                 </div>
               </div>
 
@@ -129,85 +103,97 @@ function UserDashboard() {
                   className={`flex gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'Matched Requests' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
                   onClick={() => setActiveTab('Matched Requests')}
                 >
-                   <NotebookText /> Requests
+                  <NotebookText /> Requests
                 </button>
                 <button
                   className={` flex gap-3 flex-1 px-4 py-2 text-center ${activeTab === 'Accepted Requests' ? 'border-b-2 border-blue-500 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
                   onClick={() => setActiveTab('History')}
                 >
-                 <History/> History
+                  <History /> History
                 </button>
               </div>
               <div className="p-4">
                 {activeTab === 'Matched Requests' ? (
-                  <div className="grid gap-5">
-                    <div className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
-                      <h3 className="text-lg font-semibold mb-4">Agent Details</h3>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <h4 className="text-sm text-gray-600">Agent Name</h4>
-                          <p className="font-medium">Agent Bayo</p>
-                        </div>
-                        <div>
-                          <h4 className="text-sm text-gray-600">VERIFIED</h4>
-                          <p className="font-medium">Yes</p>
-                        </div>
-                        <div>
-                          <h4 className="text-sm text-gray-600">LOCATION</h4>
-                          <p className="font-medium">Lagos Island</p>
-                        </div>
-                        <div>
-                          <h4 className="text-sm text-gray-600">AMENITIES</h4>
-                          <p className="font-medium">All inclusive</p>
-                        </div>
-                        <div>
-                          <h4 className="text-sm text-gray-600">Contact Info</h4>
-                          <p className="font-medium">Phone Number: <span>08054123456</span></p>
-                        </div>
-                      </div>
-
-                      <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <img
-                            src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                            alt="Client"
-                            className="w-12 h-12 rounded-full"
-                          />
-                          <span className="font-medium">EMMANUEL JAMES</span>
-                        </div>
-                        <div>       <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition">
-                          <WhatsAppIcon />
-                        </button>
-                          <p className="font-semibold text-red-500 ">Note:The Agent(s) info(s) will be sent to you via WhatsApp</p></div>
-
+                  <div>
+                    {isLoading ? (
+                      <div className="flex justify-center items-center">
+                      <Loader />
 
                       </div>
-                    </div>
+                    ) : (
+                      matchedAgents.length > 0 ? (
+                        <div className="grid gap-5">
+                          {matchedAgents.map((agent) => (
+                            
+                            <div key={agent._id} className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
+                              <h3 className="text-lg font-semibold mb-4">Agent Details</h3>
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <h4 className="text-sm text-gray-600">Agent Name</h4>
+                                  <p className="font-medium">{agent.name}</p>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm text-gray-600">VERIFIED</h4>
+                                  <p className="font-medium">{agent.verified === true ? "Yes" : "N0"}</p>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm text-gray-600">LOCATION</h4>
+                                  {agent.area.map((item, index) => (
+                                    <p key={index} className="font-medium">
+                                      {item}
+                                    </p>
+                                  ))}
+                                </div>
+                               
+                                <div>
+                                  <h4 className="text-sm text-gray-600">Contact Info</h4>
+                                  <p className="font-medium">Phone Number: <span>{agent.phoneNumber}</span></p>
+                                </div>
+                              </div>
+
+                              <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <img
+                                    src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                                    alt="Client"
+                                    className="w-12 h-12 rounded-full"
+                                  />
+                                  <span className="font-medium">{agent.name}</span>
+                                </div>
+                                <div>       <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition">
+                                  <WhatsAppIcon />
+                                </button>
+                                  <p className="font-semibold text-red-500 ">Note:The Agent(s) info(s) will be sent to you via WhatsApp</p></div>
+
+
+                              </div>
+
+                            </div>
+
+                          ))}
+
+                        </div>
+                      ) : (
+                        <p className="font-semibold text-3xl">No request yet</p>
+                      )
+                    )}
+
                   </div>
+
                 ) : (
                   <p className="text-center text-gray-500">No history yet.</p>
                 )}
               </div>
             </div>
 
-            {/* Subscription Plan */}
-            {/* <div className="bg-white rounded-lg shadow p-4">
-              <h3 className="text-lg font-semibold mb-4">SUBSCRIPTION PLAN</h3>
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div className="w-full md:w-1/2 h-32 bg-gray-200 rounded-lg"></div>
-                <div className="w-full md:w-1/2 flex flex-col items-center gap-4">
-                  <div className="w-full h-24 bg-gray-200 rounded-lg"></div>
-                  <button className="w-full md:w-auto px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">SUBSCRIBE</button>
-                </div>
-              </div>
-            </div> */}
+
 
           </div>
         </div>
       </div>
 
 
-    </div>
+    </div >
   )
 }
 

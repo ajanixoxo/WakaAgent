@@ -12,6 +12,7 @@ import RegisterAgent from './Pages/Auth/RegisterAgent'
 import AgentDashboard from './Pages/AgentDashboard'
 import { useAuthStore } from './store/authStore'
 import { Toaster } from 'react-hot-toast';
+import {Loader } from 'lucide-react'
 
 import './App.css'
 
@@ -46,7 +47,7 @@ const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated, user, agent, isCheckingAuth } = useAuthStore();
 
   if (isCheckingAuth) {
-    return <div>Loading...</div> // Or a proper loading component
+    return <div className="flex justify-center items-center"><Loader /></div> // Or a proper loading component
   }
 
 

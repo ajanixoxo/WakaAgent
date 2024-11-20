@@ -60,6 +60,7 @@ export const useAuthStore = create((set) => ({
 
 			if (response.data.user) {
 				set({ user: null, isAuthenticated: false, error: null, isLoading: false });
+				toast.success("Logged out  successfully");
 			} else if (response.data.agent) {
 				set({ agent: null, isAuthenticated: false, error: null, isLoading: false });
 

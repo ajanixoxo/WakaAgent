@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { updateInputValue } from '../../store/action'
+import{ useState } from 'react'
+import { useDispatch } from 'react-redux'
+
+import { useAuthStore } from "../../store/authStore";
+import { Loader } from 'lucide-react';
+import {requestMatching } from '../../store/otherStore'
 import ArrowLeftRight from "/assets/images/logo/arrow-left-right.png"
 import NG from '/assets/images/logo/naija.png'
 import PreviewRequestModal from '../../Components/Preview-Request'
+import {  useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+import NoAgentModal from './Modal';
 export default function Hero() {
   const [selectedCountry, setSelectedCountry] = useState('Nigeria')
   const [showRentalOptions, setShowRentalOptions] = useState(false)
   const [rentalType, setRentalType] = useState('')
   const [stateOrCity, setStateOrCity] = useState('');
+  const { agent, user } = useAuthStore();
+  const navigate = useNavigate();
   // const [city, setCity] = useState('')
   const [area, setArea] = useState('')
   const statesAndCities = [
@@ -121,6 +128,11 @@ export default function Hero() {
   const handleCountryChange = (e) => {
     setSelectedCountry(e.target.value)
   }
+  const handleModal = (e) => {
+    e.preventDefault()
+    setIsModalOpen(true)
+    console.log("reached")
+  }
 
   const handleAddRentalChoice = () => {
     setShowRentalOptions(!showRentalOptions)
@@ -133,21 +145,47 @@ export default function Hero() {
       use: type
     }))
   }
+const {request, isLoading, isModal} =  requestMatching()
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const allData = {
-      country: selectedCountry,
-      stateOrCity,
-      area,
-      rentalType,
-      ...formData
-    }
-    setIsModalOpen(true)
-    console.log('All form data:', allData)
-    // Here you would typically send this data to your backend
-    // For example: sendToBackend(allData)
+  // Check if the user or agent is logged in
+  if (!user && !agent) {
+    toast.error("Please log in to make a request.");
+    navigate("/login"); // Redirect to the login page
+    return;
   }
+   if(agent) {
+    toast.error("Agent are not allowed to make request.");
+    
+  } 
+
+  const filteredFormData = Object.entries({
+    userId: user._id,
+    country: selectedCountry,
+    stateOrCity,
+    area,
+    rentalType,
+    ...formData,
+  }).reduce((acc, [key, value]) => {
+    if (value && value.trim() !== "") acc[key] = value;
+    return acc;
+  }, {});
+
+  try {
+    // Call the request function from the store
+    await request(filteredFormData);
+    toast.success("Request sent successfully");
+
+    // Redirect based on user type
+    if (user) {
+      navigate("/user-dashboard"); // Redirect to user dashboard
+    } 
+  } catch (error) {
+    console.error("Error submitting request:", error);
+    // toast.error("Failed to send request");
+  }
+};
 
   return (
     <div className="hero w-full flex items-start justify-center h-max lg:h-full bg-center bg-cover" id="hero">
@@ -158,6 +196,7 @@ export default function Hero() {
           </h1>
           <p className="text-[16px] md:text-[20px] font-medium text-gray-200">
             Simplify Your Rental Search with Agentwaka—Just ₦2,000!
+         
           </p>
         </div>
         <form onSubmit={handleSubmit} className="grid w-[100%] content-center lg:w-[100%] lg:ml-[40%] p-1 md:p-4">
@@ -191,6 +230,7 @@ export default function Hero() {
                   readOnly
                   className="w-max lg:w-[250px] p-2 focus:outline-none"
                 />
+                <input type="hidden" value={user && user._id} />
                 <img src={NG} alt="Nigeria Flag" className="w-4 h-4" />
               </div>
               <div className="flex gap-5 items-center justify-center w-[100%] lg:w-[90%] h-10">
@@ -245,7 +285,9 @@ export default function Hero() {
                   </datalist>
                 </div>
               </div>
-
+{isModal && (
+  <NoAgentModal />
+)}
 
               {/* <div className="flex justify-between border bg-white outline-sky-500 gap-2 items-center px-2 w-[100%] lg:w-[90%]">
                   <input 
@@ -770,17 +812,16 @@ export default function Hero() {
                 <div onClick={handleAddRentalChoice} className="text-xs md:text-base rounded-3xl bg-[#133B5D] hover:bg-sky-800 w-[100px] text-center text-white p-2 font-normal cursor-pointer">
                   More
                 </div>
-                <button
-                  type="submit"
+                <button  
                   className=" px-4 py-2 bg-[#133B5D] text-xs md:text-base  text-white rounded-3xl hover:bg-[#0f2d47]"
-                  onClick={() => {
-
-                  }}>
+                  onClick={handleModal}>
                   Preview Request
                 </button>
 
-                <button type="submit" className="rounded-3xl text-xs md:text-base bg-[#133B5D] hover:bg-sky-800 text-white p-2 px-3 font-normal">
-                  Request Agent
+                <button type="submit" className="rounded-3xl text-xs md:text-base bg-[#133B5D] hover:bg-sky-800 text-white p-2 px-3 font-normal"
+                disabled={isLoading}>
+                                                    {isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Request Agent"}
+
                 </button>
               </div>
             </div>

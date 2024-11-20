@@ -64,6 +64,7 @@ const agentSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    hasBeenDisplayed: { type: Boolean, default: false },
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,
     verificationToken: String,
