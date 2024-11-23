@@ -20,8 +20,12 @@ export const createRequest = async (req, res) => {
 
   try {
     // Match agents based on area
-    const matchedAgents = await Agent.find({ area: { $in: [area] } })
-      .limit(3) // Limit to 3 agents
+    const matchedAgents = await Agent.find({
+      $or: [
+        { area: { $in: [area] } },          // Exact match
+        { area: { $regex: new RegExp(area, 'i') } }  // Partial match
+      ]
+    }).limit(3) // Limit to 3 agents
       .select("name email phoneNumber area");
 
     if (!matchedAgents || matchedAgents.length === 0) {

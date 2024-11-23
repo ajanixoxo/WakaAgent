@@ -820,7 +820,7 @@ const handleSubmit = async (e) => {
 
                 <button type="submit" className="rounded-3xl text-xs md:text-base bg-[#133B5D] hover:bg-sky-800 text-white p-2 px-3 font-normal"
                 disabled={isLoading}>
-                                                    {isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Request Agent"}
+                 {isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Request Agent"}
 
                 </button>
               </div>
