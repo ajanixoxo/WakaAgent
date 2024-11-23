@@ -191,10 +191,10 @@ const handleSubmit = async (e) => {
     <div className="hero w-full flex items-start justify-center h-max lg:h-full bg-center bg-cover" id="hero">
       <div className="m-4 grid place-items-center gap-10">
         <div className="grid place-items-center gap-4">
-          <h1 className="text-3xl md:text-6xl text-center lg:w-1/2 font-bold text-white">
+          <h1 className="text-3xl md:text-6xl  lg:w-1/2 font-bold text-white">
           Get Connected with Trusted Rental Agents for Just ₦2,000!
           </h1>
-          <p className="text-[16px] md:text-[20px] w-1/2 font-medium text-gray-200">
+          <p className="text-[14px] md:text-[20px] lg:w-1/2 font-medium text-gray-200">
           Simply describe your rental preferences, and we'll match you with a reliable agent tailored to your needs.    
           </p>
         </div>
