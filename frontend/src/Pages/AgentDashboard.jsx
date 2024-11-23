@@ -384,42 +384,44 @@ function AgentDashboard() {
                               {matchedUsers.map((users) => (
                                 <div key={agent._id} className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
                                   <h3 className="text-lg font-semibold mb-4">Property Description</h3>
-                                  <div className="p-2 grid  gap-3 md:grid-cols-2">
+                                  <div className="p-2 grid gap-3 md:grid-cols-1">
+                                  <div className="grid gap-3 md:grid-cols-2">
                                     <div className="grid grid-cols-2 gap-4">
-                                      <div>
-                                        <h4 className="text-sm text-gray-600 ">PROPERTY Description</h4>
-                                        {Object.entries(users.requestDetails).map(([key, value], index) => (
-                                          <p className="font-medium" key={index}>
-                                            <strong>{key}:</strong> {value}
-                                          </p>
-                                        ))}
 
-                                      </div>
+                                    
+
+
                                       <div>
                                         <h4 className="text-sm text-gray-600">Area </h4>
                                         <p className="font-medium">{users.area}</p>
                                       </div>
                                       <div>
                                         <h4 className="text-sm text-gray-600">LOCATION</h4>
-                                        <p className="font-medium">Lagos Island</p>
+                                        <p className="font-medium">{users.requestDetails.stateOrCity}</p>
                                       </div>
                                       <div>
                                         <h4 className="text-sm text-gray-600">AMENITIES</h4>
                                         <p className="font-medium">All inclusive</p>
                                       </div>
+                                      <div>
+                                        <h4 className="text-sm text-gray-600">AMENITIES</h4>
+                                        <p className="font-medium">All inclusive</p>
+                                      </div>
+                                    
 
                                     </div>
-                                    <div className=" flex md:flex-col gap-5 items-center justify-between">
-                                      <div className="flex md:flex-col items-center justify-center gap-2">
+                                    <div className=" flex  gap-5 items-center justify-between">
+                                      <div className="flex md:flex-col items-center justify-between md:justify-center w-full gap-2">
                                         <img
                                           src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
                                           alt="Client"
-                                          className="w-12 h-12 rounded-full"
+                                          className="w-12 hidden md:block h-12 rounded-full"
                                         />
                                         <div>
                                           <h4 className="text-sm text-gray-600">Client Name</h4>
                                           <p className="font-medium">{users.user.name}</p>
                                         </div>
+
                                         <div>
                                           <h4 className="text-sm text-gray-600">Client Number</h4>
                                           <p className="font-medium">{users.user.phoneNumber}</p>
@@ -430,6 +432,22 @@ function AgentDashboard() {
                                         <WhatsAppIcon />
                                       </button>
                                     </div>
+                                    </div>
+
+                                    <div className="space-y-4 w-full ">
+                                        <h4 className="text-lg font-semibold text-gray-700">PROPERTY Description</h4>
+                                        <div className="grid lg:grid-cols-2 gap-4">
+                                          {Object.entries(users.requestDetails).map(([key, value], index) => (
+                                            <div
+                                              key={index}
+                                              className="flex justify-between items-start border-b py-2"
+                                            >
+                                              <span className="font-medium text-gray-600">{key}:</span>
+                                              <span className="text-gray-800 break-words max-w-full">{value}</span>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
 
                                   </div>
                                 </div>

@@ -192,11 +192,10 @@ const handleSubmit = async (e) => {
       <div className="m-4 grid place-items-center gap-10">
         <div className="grid gap-4">
           <h1 className="text-3xl md:text-6xl font-bold text-white">
-            Find Your Ideal Rental, Stress-Free.
+          Get Connected with Trusted Rental Agents for Just ₦2,000!
           </h1>
           <p className="text-[16px] md:text-[20px] font-medium text-gray-200">
-            Simplify Your Rental Search with Agentwaka—Just ₦2,000!
-         
+          Simply describe your rental preferences, and we'll match you with a reliable agent tailored to your needs.    
           </p>
         </div>
         <form onSubmit={handleSubmit} className="grid w-[100%] content-center lg:w-[100%] lg:ml-[40%] p-1 md:p-4">
