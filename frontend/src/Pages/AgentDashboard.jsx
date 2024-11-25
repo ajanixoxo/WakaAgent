@@ -60,6 +60,7 @@ function AgentDashboard() {
   const [nin, setNin] = useState("")
   const [state, setState] = useState("")
   const [country, setCountry] = useState('Nigeria')
+  const [touringFee, setTouringFee] = useState('')
   const [areaLocations, setAreaLocations] = useState(['']);
   const { updateAgentProfile, isLoading, agent } = useAuthStore();
   const [imageFile, setImageFile] = useState(null);
@@ -124,9 +125,9 @@ function AgentDashboard() {
 
   const handleFormFilling = async (e) => {
     e.preventDefault();
-    console.log("Form submitted ", state, country, nin, imageFile, areaLocations, agentId)
+    console.log("Form submitted ", state, country, nin, imageFile, areaLocations, touringFee, agentId)
     try {
-      await updateAgentProfile(country, state, nin, imageFile, areaLocations, agentId)
+      await updateAgentProfile(country, state, nin, imageFile, areaLocations, touringFee, agentId)
       toast.success("Successfully update agent profile");
     } catch (error) {
       console.log(error);
@@ -134,6 +135,40 @@ function AgentDashboard() {
 
     }
   }
+
+  const handleAction = (type, phoneNumber) => {
+    if (!phoneNumber) {
+      alert("Client number is not available.");
+      return;
+    }
+
+    const transformedPhoneNumber = phoneNumber.startsWith("0")
+      ? `+234${phoneNumber.slice(1)}`
+      : phoneNumber;
+
+
+    if (type === "whatsapp") {
+      // Redirect to WhatsApp
+      const message = encodeURIComponent(
+        "From Trekking Agent: Hello, I am interested in your property listing. Can we discuss further?"
+      );
+      const whatsappUrl = `https://wa.me/${transformedPhoneNumber}?text=${message}`;
+      window.open(whatsappUrl, "_blank");
+    } else if (type === "call") {
+      // Redirect to call app
+      const callUrl = `tel:${transformedPhoneNumber}`;
+      window.location.href = callUrl;
+    }
+  };
+  const formatDateTime = (isoDate) => {
+    return new Date(isoDate).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      
+    });
+  };
+
   return (
     <div className="min-h-full">
 
@@ -164,12 +199,13 @@ function AgentDashboard() {
 
               <div className="space-y-2">
                 <h2 className="text-xl font-semibold">{agent.name}</h2>
-                <p className="text-sm text-gray-600"><span className="font-semibold text-black text-xl">Email:</span> {agent.email} </p>
+                <h2 className="text-sm  font-semibold"><span className="font-semibold text-black text-xl">Email:</span> {agent.email} </h2>
+                <h2 className="text-xl  font-semibold"> {agent.touringFee} </h2>
 
-                <p className="text-base text-gray-600">{(agent.verified == true) ? "Verified Agent" : "Fill the required field below to get verified"} </p>
-                <div className="text-sm space-y-1 text-gray-700">
+                <p className="text-base font-semibold ">{(agent.verified == true) ? "Verified Agent" : "Fill the required field below to get verified"} </p>
+                <div className="text-sm space-y-1 ">
                   {/* <p>Age: 34</p> */}
-                  <p>State of Origin:{agent.state ? agent.state : "No State of Orgin Provided"}</p>
+                  <p className="text-black font-semibold">State of Origin:{agent.state ? agent.state : "No State of Orgin Provided"}</p>
                   <p >Operational Base:
                     {agent.area.map((item, index) => (
                       <p key={index} style={{ marginRight: "10px" }} className="font-semibold">{item}</p>
@@ -294,6 +330,49 @@ function AgentDashboard() {
                               </div>
                               <div className="w-full md:w-[100%]">
                                 <div className="flex items-center justify-between">
+                                  <label htmlFor="touringFee" className="block text-sm font-medium leading-6 p-2 text-gray-900">
+                                    Touring Fee
+                                  </label>
+                                </div>
+                                <div className="mt-1 relative rounded-md shadow-sm">
+                                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <UserPen className="h-5 w-5 text-gray-400" />
+                                  </div>
+                                  <select
+                                    id="touringFee"
+                                    name="touringFee"
+                                    type="touringFee"
+                                    className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border border-black h-10 rounded-md"
+                                    value={touringFee}
+                                    onChange={(e) => setTouringFee(e.target.value)}
+                                    required>
+                                    <option value="">Select Touring Fee</option>
+                                    <option value="1000">1,000</option>
+                                    <option value="2000">2,000</option>
+                                    <option value="3000">3,000</option>
+                                    <option value="4000">4,000</option>
+                                    <option value="5000">5,000</option>
+                                    <option value="6000">6,000</option>
+                                    <option value="7000">7,000</option>
+                                    <option value="8000">8,000</option>
+                                    <option value="9000">9,000</option>
+                                    <option value="10000">10,000</option>
+
+                                  </select>
+                                  {/* <input
+                                    id="touringFee"
+                                    name="touringFee"
+                                    type="touringFee"
+                                    required
+                                    className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 sm:text-sm border border-black h-10 rounded-md"
+                                    placeholder="e.g Lagos, Oyo, Abjua"
+                                    value={touringFee}
+                                    onChange={(e) => setTouringFee(e.target.value)}
+                                  /> */}
+                                </div>
+                              </div>
+                              <div className="w-full md:w-[100%]">
+                                <div className="flex items-center justify-between">
                                   <label htmlFor="country" className="block text-sm font-medium leading-6 p-2 text-gray-900">
                                     Country
                                   </label>
@@ -382,72 +461,80 @@ function AgentDashboard() {
                           matchedUsers.length > 0 ? (
                             <div className="grid gap-5">
                               {matchedUsers.map((users) => (
-                                <div key={agent._id} className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
+                                <div key={users.user._id} className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
                                   <h3 className="text-lg font-semibold mb-4">Property Description</h3>
                                   <div className="p-2 grid gap-3 md:grid-cols-1">
-                                  <div className="grid gap-3 md:grid-cols-2">
-                                    <div className="grid grid-cols-2 gap-4">
-
-                                    
+                                    <div className="grid gap-3 md:grid-cols-2">
+                                      <div className="grid grid-cols-2 gap-4">
 
 
-                                      <div>
-                                        <h4 className="text-sm text-gray-600">Area </h4>
-                                        <p className="font-medium">{users.area}</p>
-                                      </div>
-                                      <div>
-                                        <h4 className="text-sm text-gray-600">LOCATION</h4>
-                                        <p className="font-medium">{users.requestDetails.stateOrCity}</p>
-                                      </div>
-                                      <div>
-                                        <h4 className="text-sm text-gray-600">AMENITIES</h4>
-                                        <p className="font-medium">All inclusive</p>
-                                      </div>
-                                      <div>
-                                        <h4 className="text-sm text-gray-600">AMENITIES</h4>
-                                        <p className="font-medium">All inclusive</p>
-                                      </div>
-                                    
 
-                                    </div>
-                                    <div className=" flex  gap-5 items-center justify-between">
-                                      <div className="flex md:flex-col items-center justify-between md:justify-center w-full gap-2">
-                                        <img
-                                          src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                                          alt="Client"
-                                          className="w-12 hidden md:block h-12 rounded-full"
-                                        />
-                                        <div>
-                                          <h4 className="text-sm text-gray-600">Client Name</h4>
-                                          <p className="font-medium">{users.user.name}</p>
-                                        </div>
 
                                         <div>
-                                          <h4 className="text-sm text-gray-600">Client Number</h4>
-                                          <p className="font-medium">{users.user.phoneNumber}</p>
+                                          <h4 className="text-sm text-gray-600">Area </h4>
+                                          <p className="font-medium">{users.area}</p>
+                                        </div>
+                                        <div>
+                                          <h4 className="text-sm text-gray-600">LOCATION</h4>
+                                          <p className="font-medium">{users.requestDetails.stateOrCity}</p>
+                                        </div>
+                                        <div>
+                                          <h4 className="text-sm text-gray-600">AMENITIES</h4>
+                                          <p className="font-medium">All inclusive</p>
+                                        </div>
+                                        <div>
+                                          <h4 className="text-sm text-gray-600">TIME REQUESTED</h4>
+                                          <p className="font-medium">{formatDateTime(users.createdAt)}</p>
                                         </div>
 
+
                                       </div>
-                                      <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition">
-                                        <WhatsAppIcon />
-                                      </button>
-                                    </div>
+                                      <div className=" flex  gap-5 items-center justify-between">
+                                        <div className="flex md:flex-col items-center justify-between md:justify-center w-full gap-2">
+                                          <img
+                                            src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                                            alt="Client"
+                                            className="w-12 hidden md:block h-12 rounded-full"
+                                          />
+                                          <div>
+                                            <h4 className="text-sm text-gray-600">Client Name</h4>
+                                            <p className="font-medium">{users.user.name}</p>
+                                          </div>
+
+                                          <div>
+                                            <h4 className="text-sm text-gray-600">Client Number</h4>
+                                            <p className="font-medium">{users.user.phoneNumber}</p>
+                                          </div>
+
+                                        </div>
+                                        <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                                          onClick={() => handleAction("whatsapp", users.user.phoneNumber)}>
+                                          <WhatsAppIcon />
+                                        </button>
+                                        <button
+                                          className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                                          onClick={() => handleAction("call", users.user.phoneNumber)}
+                                        >
+                                          {/* {console.log(`Users phone numner ${users.user.phoneNumber}`)} */}
+                                          Call
+                                        </button>
+                                      </div>
                                     </div>
 
                                     <div className="space-y-4 w-full ">
-                                        <h4 className="text-lg font-semibold text-gray-700">PROPERTY Description</h4>
-                                        <div className="grid lg:grid-cols-2 gap-4">
-                                          {Object.entries(users.requestDetails).map(([key, value], index) => (
-                                            <div
-                                              key={index}
-                                              className="flex justify-between items-start border-b py-2"
-                                            >
-                                              <span className="font-medium text-gray-600">{key}:</span>
-                                              <span className="text-gray-800 break-words max-w-full">{value}</span>
-                                            </div>
-                                          ))}
-                                        </div>
+                                      <h4 className="text-lg font-semibold text-gray-700">PROPERTY Description</h4>
+                                      <div className="grid lg:grid-cols-2 gap-4">
+                                        {Object.entries(users.requestDetails).map(([key, value], index) => (
+                                          <div
+                                            key={index}
+                                            className="flex justify-between items-start border-b py-2"
+                                          >
+                                            <span className="font-medium text-gray-600">{key}:</span>
+                                            <span className="text-gray-800 break-words max-w-full">{value}</span>
+                                          </div>
+                                        ))}
                                       </div>
+                                    </div>
 
                                   </div>
                                 </div>

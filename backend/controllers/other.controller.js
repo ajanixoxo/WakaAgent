@@ -2,13 +2,14 @@ import { User } from '../models/user.models.js'
 import { Agent } from '../models/agent.models.js'
 import { Request } from '../models/request.models.js'
 // import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
-// import { sendVerificationEmail, sendWelcomeEmail, sendPasswordRestEmail, sendResetSuccessEmail } from '../mailtrap/emails.js';
+//  import { sendRequestDetailsEmail } from '../mailtrap/emails.js';
 
 import dotenv from "dotenv"
+import { sendRequestDetailsEmail } from '../mailtrap/emails.js';
 dotenv.config()
 // Match agents to user requests
 export const createRequest = async (req, res) => {
-  const { userId, area, ...data}  = req.body;
+  const { userId, area, ...data } = req.body;
   console.log("This is userid ", data)
 
   if (!userId || !area) {
@@ -34,18 +35,30 @@ export const createRequest = async (req, res) => {
         message: "No agents found for the selected area",
       });
     }
-
-    console.log("This are the ", data)
+    console.log("Matched Agents:", matchedAgents);
+    console.log("Request Details:", data);
     // Create request
     const request = new Request({
       userId,
       area,
-      details:data,
+      details: data,
       matchedAgents: matchedAgents.map((agent) => agent._id), // Store matched agent IDs
+      createdAT: Date.now(),
     });
 
     await request.save();
 
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Send the emails
+    await sendRequestDetailsEmail(user, data, matchedAgents);
+    
     res.status(201).json({
       success: true,
       message: "Request created successfully",
@@ -69,7 +82,7 @@ export const getUserRequests = async (req, res) => {
   try {
     // Find all requests made by the user
     const requests = await Request.find({ userId })
-      .populate("matchedAgents", "name email phoneNumber area verified")
+      .populate("matchedAgents", "name email phoneNumber area verified touringFee ")
       .sort({ createdAt: -1 }); // Sort requests by most recent
 
     if (!requests || requests.length === 0) {
@@ -110,35 +123,37 @@ export const getAgentRequests = async (req, res) => {
   console.log("This is", req.params)
 
   try {
-      // Find requests where the agent is matched
-      const requests = await Request.find({ matchedAgents: agentId })
-          .populate("userId", "name email phoneNumber ")
-          .sort({ createdAt: -1 }); // Sort requests by most recent
+    // Find requests where the agent is matched
+    const requests = await Request.find({ matchedAgents: agentId })
+      .populate("userId", "name email phoneNumber  ")
+      .sort({ createdAt: -1 }); // Sort requests by most recent
 
-      if (!requests || requests.length === 0) {
-          return res.status(404).json({
-              success: false,
-              message: "No requests found for this agent",
-          });
-      }
-
-      // Return user details for each matched request
-      const userRequests = requests.map(req => ({
-          user: req.userId,
-          requestDetails: req.details,
-          area: req.area,
-      }));
-
-      res.status(200).json({
-          success: true,
-          requests: userRequests,
+    if (!requests || requests.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No requests found for this agent",
       });
+    }
+
+    // Return user details for each matched request
+    // console.log(`this is request ${requests}`)
+    const userRequests = requests.map(req => ({
+      user: req.userId,
+      requestDetails: req.details,
+      area: req.area,
+      createdAt: req.createdAt,
+    }));
+
+    res.status(200).json({
+      success: true,
+      requests: userRequests,
+    });
   } catch (error) {
-      console.error("Error fetching agent requests:", error);
-      res.status(500).json({
-          success: false,
-          message: "Server error while fetching agent requests",
-      });
+    console.error("Error fetching agent requests:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching agent requests",
+    });
   }
 };
 

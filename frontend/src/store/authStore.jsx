@@ -131,7 +131,7 @@ export const useAuthStore = create((set) => ({
 			throw error;
 		}
 	},
-	updateAgentProfile: async (country, state, nin, imageFile, areaLocations, agentId) => {
+	updateAgentProfile: async (country, state, nin, imageFile, areaLocations, touringFee, agentId) => {
 		set({ isLoading: true, error: null });
 		try {
 			const response = await axios.post(`${API_URL}/agent-verification`, {
@@ -140,6 +140,7 @@ export const useAuthStore = create((set) => ({
 				nin,
 				image: imageFile,
 				area: areaLocations,
+				touringFee,
 				agentId
 			});
 

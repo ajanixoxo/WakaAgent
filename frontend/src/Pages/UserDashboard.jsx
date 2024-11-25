@@ -44,12 +44,34 @@ function UserDashboard() {
   }, [user, fetchMatchedAgents]);
   console.log("This is fetchedMatchAgents ", matchedAgents);
 
+  const handleAction = (type, phoneNumber) => {
+    if (!phoneNumber) {
+      alert("Agent number is not available.");
+      return;
+    }
 
+    const transformedPhoneNumber = phoneNumber.startsWith("0")
+      ? `+234${phoneNumber.slice(1)}`
+      : `+234${phoneNumber}`;
+
+    if (type === "whatsapp") {
+      // Redirect to WhatsApp
+      const message = encodeURIComponent(
+        "From Trekking Agent: Hello, I see that you have been matched as an agent operating in my area of interest for renting a property. I would like to discuss further details with you. Please let me know how we can proceed."
+      );
+      const whatsappUrl = `https://wa.me/${transformedPhoneNumber}?text=${message}`;
+      window.open(whatsappUrl, "_blank");
+    } else if (type === "call") {
+      // Redirect to call app
+      const callUrl = `tel:${transformedPhoneNumber}`;
+      window.location.href = callUrl;
+    }
+  };
   return (
     <div className="min-h-full">
 
 
-    
+
       <div className="container mx-auto p-4 font-sans">
         <h1 className="text-2xl font-bold mb-6">User Dashboard</h1>
 
@@ -117,14 +139,14 @@ function UserDashboard() {
                   <div>
                     {isLoading ? (
                       <div className="flex justify-center items-center">
-                      <Loader />
+                        <Loader />
 
                       </div>
                     ) : (
                       matchedAgents.length > 0 ? (
                         <div className="grid gap-5">
                           {matchedAgents.map((agent) => (
-                            
+
                             <div key={agent._id} className="p-2  border w-full lg:w-[80%] border-black rounded-lg">
                               <h3 className="text-lg font-semibold mb-4">Agent Details</h3>
                               <div className="grid grid-cols-2 gap-4">
@@ -144,10 +166,14 @@ function UserDashboard() {
                                     </p>
                                   ))}
                                 </div>
-                               
+
                                 <div>
                                   <h4 className="text-sm text-gray-600">Contact Info</h4>
-                                  <p className="font-medium">Phone Number: <span>{agent.phoneNumber}</span></p>
+                                  <p className="font-medium"><span>Phone Number: </span>{agent.phoneNumber}</p>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm text-gray-600">Agent Touring Fee</h4>
+                                  <p className="font-medium"><span> ₦</span>{agent.touringFee}</p>
                                 </div>
                               </div>
 
@@ -160,10 +186,19 @@ function UserDashboard() {
                                   />
                                   <span className="font-medium">{agent.name}</span>
                                 </div>
-                                <div>       <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition">
+                                <div className="flex gap-5 items-center">       
+                                  <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                                  onClick={() => handleAction("whatsapp", agent.phoneNumber)}>
                                   <WhatsAppIcon />
                                 </button>
-                                  <p className="font-semibold text-red-500 ">Note:The Agent(s) info(s) will be sent to you via WhatsApp</p></div>
+                                  <button
+                                    className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                                    onClick={() => handleAction("call", agent.phoneNumber)}
+                                  >
+                                    {/* {console.log(`Users phone numner ${users.user.phoneNumber}`)} */}
+                                    Call
+                                  </button>
+                                  <p className="font-semibold text-red-500 ">Note:The Agent(s) info(s) will be sent to you via Email</p></div>
 
 
                               </div>

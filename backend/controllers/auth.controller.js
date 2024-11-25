@@ -300,7 +300,7 @@ export const checkAuth = async (req, res) => {
 export const updateAgent = async (req, res) => {
 
     try {
-        const { country, state, nin, image, area, agentId } = req.body;
+        const { country, state, nin, image, area, touringFee, agentId } = req.body;
         const agent = await Agent.findById(agentId);
 
         console.log("This is agent id ", agent)
@@ -316,6 +316,7 @@ export const updateAgent = async (req, res) => {
         if (area) agent.area = area;
         if (state) agent.state = state;
         if (country) agent.country = country;
+        if (touringFee) agent.touringFee = touringFee;
         agent.verified = true;
 
         // If an image file is included in the request

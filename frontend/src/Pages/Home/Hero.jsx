@@ -198,9 +198,9 @@ const handleSubmit = async (e) => {
           Simply describe your rental preferences, and we'll match you with a reliable agent tailored to your needs.    
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="grid w-[100%] content-center lg:w-[100%] lg:ml-[40%] p-1 md:p-4">
+        <form onSubmit={handleSubmit} className="flex flex-col lg:ml-[60%]  w-[100%]   lg:w-[100%]  p-1 md:p-4">
           <div className="bg-[#133B5D] lg:w-[10%] px-4 p-1 md:p-2 text-center text-white font-bold">Rent</div>
-          <div className="grid gap-4 bg-[#ffffff9a] p-2 md:p-4 lg:w-[60%]">
+          <div className="grid gap-4 bg-[#ffffff9a] p-2 md:p-4 lg:w-[40%]">
             <div className="flex justify-between gap-5 w-full items-center">
               <button
                 type="button"

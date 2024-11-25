@@ -60,6 +60,9 @@ const agentSchema = new mongoose.Schema({
         type: Array,
         // required: true
     },
+    touringFee:{
+        type:String
+    },
     isVerified: {
         type: Boolean,
         default: false

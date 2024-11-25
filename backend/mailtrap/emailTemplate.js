@@ -121,3 +121,93 @@ export const WELCOME_EMAIL_TEMPLATE = (name) => {
 </body>
 </html>
 `)};
+
+export const CLIENT_REQUEST_EMAIL_TEMPLATE = (name, requestDetails, agentDetails) => {
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Details</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(to right, #007BFF, #0056b3); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Request Confirmation</h1>
+  </div>
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Dear ${name},</p>
+    <p>Thank you for using our platform. Below are the details of your request:</p>
+    
+    <h3 style="color: #0056b3;">Request Details</h3>
+    <ul style="list-style: none; padding: 0;">
+      ${Object.entries(requestDetails)
+        .map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`)
+        .join("")}
+    </ul>
+    
+    <h3 style="color: #0056b3;">Matched Agent Information</h3>
+    ${agentDetails
+      .map(
+        (agent) => `
+        <ul style="list-style: none; padding: 0;">
+          <li><strong>Name:</strong> ${agent.name}</li>
+          <li><strong>Email:</strong> ${agent.email}</li>
+          <li><strong>Phone:</strong> ${agent.phoneNumber}</li>
+          <li><strong>Area:</strong> ${agent.area}</li>
+        </ul>
+        `
+      )
+      .join("")}
+    
+    <p>Best regards,<br>Your Trekking Agent</p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message, please do not reply to this email.</p>
+  </div>
+</body>
+</html>
+  `;
+};
+
+
+export const AGENT_REQUEST_EMAIL_TEMPLATE = (name, clientDetails, requestDetails) => {
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Client Request</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(to right, #28a745, #218838); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">New Client Request</h1>
+  </div>
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Dear ${name},</p>
+    <p>You have been matched with a client. Below are the client's details and their request:</p>
+    
+    <h3 style="color: #218838;">Client Details</h3>
+    <ul style="list-style: none; padding: 0;">
+      <li><strong>Name:</strong> ${clientDetails.name}</li>
+      <li><strong>Email:</strong> ${clientDetails.email}</li>
+      <li><strong>Phone:</strong> ${clientDetails.phoneNumber}</li>
+    </ul>
+
+    <h3 style="color: #218838;">Request Details</h3>
+    <ul style="list-style: none; padding: 0;">
+      ${Object.entries(requestDetails)
+        .map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`)
+        .join("")}
+    </ul>
+    
+    <p>Best regards,<br>Your Trekking Agent</p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message, please do not reply to this email.</p>
+  </div>
+</body>
+</html>
+  `;
+};

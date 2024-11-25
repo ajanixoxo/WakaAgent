@@ -126,7 +126,7 @@ function RegisterAgent() {
                                         </div>
                                     </div>
                                     <div className="w-full md:w-[70%]">
-                                        <label htmlFor="email" className="block text-sm font-medium leading-6 p-2 text-gray-900">
+                                        <label htmlFor="phoneNumber" className="block text-sm font-medium leading-6 p-2 text-gray-900">
                                             Phone Number(WhatsApp)
                                         </label>
                                         <div className="mt-1 relative rounded-md shadow-sm">
