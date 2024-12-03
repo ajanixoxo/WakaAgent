@@ -34,14 +34,14 @@ function Contact() {
             <Phone className="w-6 h-6 text-gray-400 mr-4" />
             <div>
               <p className="text-sm text-gray-500">Request a call back</p>
-              <p className="font-medium text-sky-500">314-555-0123</p>
+              <p className="font-medium text-sky-500">+2347065631064</p>
             </div>
           </div>
           <div className="flex items-center">
             <Mail className="w-6 h-6 text-gray-400 mr-4" />
             <div>
               <p className="text-sm text-gray-500">Email us</p>
-              <p className="font-medium text-sky-500">hellosupport@gmail.com</p>
+              <p className="font-medium text-sky-500">trekkingagent@gmail.com</p>
             </div>
           </div>
         </div>
@@ -52,13 +52,14 @@ function Contact() {
         <div className="mt-8">
           <h3 className="text-lg font-semibold mb-4">Follow us</h3>
           <div className="flex space-x-4">
-            <a href="#" className="text-gray-400 hover:text-sky-500">
+            <a href="https://www.facebook.com/profile.php?id=61567137925008&mibextid=ZbWKwL " className="text-gray-400 hover:text-sky-500">
               <Facebook className="w-6 h-6" />
             </a>
             <a href="#" className="text-gray-400 hover:text-sky-500">
               <Twitter className="w-6 h-6" />
             </a>
-            <a href="#" className="text-gray-400 hover:text-sky-500">
+            <a href="https://www.instagram.com/trekkingagent/profilecard/?igsh=MW4zdGEzMnJhczlhZQ==
+" className="text-gray-400 hover:text-sky-500">
               <Instagram className="w-6 h-6" />
             </a>
             <a href="#" className="text-gray-400 hover:text-sky-500">

@@ -7,22 +7,22 @@ import 'slick-carousel/slick/slick-theme.css';
 
 const testimonials = [
   {
-    quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel tortor justo. Vestibulum vitae vulputate lacus. Aliquam sollicitudin mauris odio. Fusce egestas consectetur semper vulputate",
-    name: "Esther Howard",
-    title: "Internet Security Assistant",
-    image: "/assets/images/clients/client1.jpg"
+    quote: "TrekkingAgent made my house-hunting experience so much easier. I gave them my preferences, and they connected me with agents who truly listened and showed me great options. The whole process was smooth and stress-free. I found my dream home, and I couldn’t be happier!",
+    name: "James Okwara",
+    title: " Teacher",
+    image: "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
   },
   {
-    quote: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    name: "John Doe",
-    title: "Software Engineer",
-    image: "/assets/images/clients/client1.jpg"
+    quote: "At first, I was skeptical about using TrekkingAgent, but I’m so glad I did! The agents they matched me with were professional and efficient. They guided me to properties that met my exact needs, and I didn’t feel pressured or misled. This service is a lifesaver for anyone looking for a place to stay.",
+    name: "Aisha Bello",
+    title: "Graphic Designer",
+    image: "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
   },
   {
-    quote: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-    name: "Jane Smith",
-    title: "Product Manager",
-    image: "/assets/images/clients/client1.jpg"
+    quote: "TrekkingAgent made finding a home so convenient! The agents were responsive and knew the area well, which saved me a lot of time. They helped me narrow down options that perfectly matched my budget and preferences. Highly recommend their service to anyone tired of the usual hassles of house-hunting",
+    name:"Chike Udeh",
+    title: "Entrepreneur",
+    image: "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
   }
 ];
 
@@ -90,7 +90,7 @@ const Reviews = () => {
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-4">From our happy customers</h2>
         <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed tristique metus proin id lorem odio
+        Here’s what others have to say about their experience. We take pride in delivering quality service, and these stories reflect our commitment to ensuring satisfaction for every client.
         </p>
         <div className="relative">
           <Slider {...settings}>
@@ -106,8 +106,8 @@ const Reviews = () => {
             Become our next customer, and find your dream home{' '}
             <span className="font-semibold">
               Contact us:{' '}
-              <a href="tel:314-555-0123" className="text-sky-500 hover:underline">
-                234-555-0123
+              <a href="tel:+2347065631064" className="text-sky-500 hover:underline">
+              +2347065631064
               </a>
             </span>
           </p>

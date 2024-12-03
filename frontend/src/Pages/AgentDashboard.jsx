@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useAuthStore } from "../store/authStore";
-import { requestMatching } from "../store/otherStore";
+import { requestMatching } from "../store/requests.m.Store";
 import toast from 'react-hot-toast';
 import ImageUpload from '../Components/Image-Upload';
-import EditModal from '../Components/Modal';
-import { NotebookText, Handshake, ThumbsUp, BookOpenText, UserPen, Loader } from 'lucide-react'
+import EditModal from '../Components/Agent.Edit.Modal';
+import { NotebookText, Handshake, ThumbsUp, BookOpenText, UserPen, Loader, } from 'lucide-react'
 const StarIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -165,7 +165,7 @@ function AgentDashboard() {
       year: "numeric",
       month: "long",
       day: "numeric",
-      
+
     });
   };
 
@@ -211,7 +211,9 @@ function AgentDashboard() {
                       <p key={index} style={{ marginRight: "10px" }} className="font-semibold">{item}</p>
                     ))}
                   </p>
+                  <input type="hidden" value={agent._id} name="agentID" />
                   {/* <p>Lagos Island</p>
+                  
                   <p>AJah</p>
                   <p>Maryland</p> */}
                 </div>
@@ -226,7 +228,7 @@ function AgentDashboard() {
             </div>
           </div>
           {isModalOpen && (
-            <EditModal isOpen={isModalOpen} onClose={closeModal} />
+            <EditModal isOpen={isModalOpen} onClose={closeModal} agentID={agent._id} />
           )}
 
           <div className="space-y-6">
@@ -431,6 +433,7 @@ function AgentDashboard() {
                                     + Add Location
                                   </button>
                                 )}
+
                               </div>
                             </div>
 
@@ -509,14 +512,15 @@ function AgentDashboard() {
                                         </div>
                                         <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
                                           onClick={() => handleAction("whatsapp", users.user.phoneNumber)}>
-                                          <WhatsAppIcon />
+                                          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png?20200503174721" className="w-7" alt="" />
+
                                         </button>
                                         <button
                                           className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
                                           onClick={() => handleAction("call", users.user.phoneNumber)}
                                         >
                                           {/* {console.log(`Users phone numner ${users.user.phoneNumber}`)} */}
-                                          Call
+                                          <WhatsAppIcon />
                                         </button>
                                       </div>
                                     </div>

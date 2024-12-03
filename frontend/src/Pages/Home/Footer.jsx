@@ -1,7 +1,7 @@
 import React from 'react';
 import { Home, Facebook, Twitter, Linkedin, Instagram, ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Waka from '/assets/images/logo/logo.png'
+import Waka from '/assets/images/logo/TREKKING AGENT logo.png'
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({
@@ -11,7 +11,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-sky-500 text-white py-8">
+    <footer className="bg-[#133B5D] text-white py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="flex items-center mb-4 md:mb-0">

@@ -8,7 +8,7 @@ export const VERIFICATION_EMAIL_TEMPLATE = (verificationCode) => {
   <title>Verify Your Email</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center;">
+  <div style="background: linear-gradient(to right, #133B5D); padding: 20px; text-align: center;">
     <h1 style="color: white; margin: 0;">Verify Your Email</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -22,6 +22,7 @@ export const VERIFICATION_EMAIL_TEMPLATE = (verificationCode) => {
     <p>If you didn't create an account with us, please ignore this email.</p>
     <p>Best regards,<br>Your App Team</p>
   </div>
+    <img src="./footer.jpg" style="width:30%;" />
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>This is an automated message, please do not reply to this email.</p>
   </div>
@@ -38,7 +39,7 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE = `
   <title>Password Reset Successful</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center;">
+  <div style="background: linear-gradient(to right, #133B5D); padding: 20px; text-align: center;">
     <h1 style="color: white; margin: 0;">Password Reset Successful</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -59,6 +60,7 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE = `
     <p>Thank you for helping us keep your account secure.</p>
     <p>Best regards,<br>Your App Team</p>
   </div>
+    <img src="./footer.jpg" style="width:30%;" />
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>This is an automated message, please do not reply to this email.</p>
   </div>
@@ -76,7 +78,7 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = (resetURL) => {
   <title>Reset Your Password</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center;">
+  <div style="background: linear-gradient(to right, #133B5D); padding: 20px; text-align: center;">
     <h1 style="color: white; margin: 0;">Password Reset</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -89,6 +91,7 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = (resetURL) => {
     <p>This link will expire in 1 hour for security reasons.</p>
     <p>Best regards,<br>Your App Team</p>
   </div>
+    <img src="./footer.jpg" style="width:30%;" />
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>This is an automated message, please do not reply to this email.</p>
   </div>
@@ -105,7 +108,7 @@ export const WELCOME_EMAIL_TEMPLATE = (name) => {
   <title>Welcome to Auth</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center;">
+  <div style="background: linear-gradient(to right, #133B5D); padding: 20px; text-align: center;">
     <h1 style="color: white; margin: 0;">Welcome ${name}</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -115,6 +118,7 @@ export const WELCOME_EMAIL_TEMPLATE = (name) => {
     
     <p>Best regards,<br>Your App Team</p>
   </div>
+    <img src="./footer.jpg" style="width:30%;" />
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>This is an automated message, please do not reply to this email.</p>
   </div>
@@ -132,7 +136,7 @@ export const CLIENT_REQUEST_EMAIL_TEMPLATE = (name, requestDetails, agentDetails
   <title>Request Details</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(to right, #007BFF, #0056b3); padding: 20px; text-align: center;">
+  <div style="background: linear-gradient(to right, #133B5D); padding: 20px; text-align: center;">
     <h1 style="color: white; margin: 0;">Request Confirmation</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -162,6 +166,7 @@ export const CLIENT_REQUEST_EMAIL_TEMPLATE = (name, requestDetails, agentDetails
     
     <p>Best regards,<br>Your Trekking Agent</p>
   </div>
+    <img src="./footer.jpg" style="width:30%;" />
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>This is an automated message, please do not reply to this email.</p>
   </div>
@@ -181,7 +186,7 @@ export const AGENT_REQUEST_EMAIL_TEMPLATE = (name, clientDetails, requestDetails
   <title>New Client Request</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(to right, #28a745, #218838); padding: 20px; text-align: center;">
+  <div style="background: linear-gradient(to right, #133B5D, #133B5D); padding: 20px; text-align: center;">
     <h1 style="color: white; margin: 0;">New Client Request</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -204,6 +209,7 @@ export const AGENT_REQUEST_EMAIL_TEMPLATE = (name, clientDetails, requestDetails
     
     <p>Best regards,<br>Your Trekking Agent</p>
   </div>
+  <img src="./footer.jpg" style="width:30%;" />
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>This is an automated message, please do not reply to this email.</p>
   </div>

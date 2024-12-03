@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useAuthStore } from "../store/authStore";
-import { requestMatching } from "../store/otherStore";
+import { requestMatching } from "../store/requests.m.Store";
 import { formatDate } from "../utils/Date";
 import toast, { Toaster } from 'react-hot-toast';
 import { NotebookText, History, Loader } from 'lucide-react'
@@ -108,7 +108,7 @@ function UserDashboard() {
             </div>
           </div>
           {isModalOpen && (
-            <EditModal isOpen={isModalOpen} onClose={closeModal} />
+            <EditModal isOpen={isModalOpen} onClose={closeModal} userID={user._id} />
           )}
           <div className="space-y-6">
             {/* Ratings */}
@@ -189,16 +189,16 @@ function UserDashboard() {
                                 <div className="flex gap-5 items-center">       
                                   <button className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
                                   onClick={() => handleAction("whatsapp", agent.phoneNumber)}>
-                                  <WhatsAppIcon />
+                               <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png?20200503174721" className="w-7" alt="" />
                                 </button>
                                   <button
                                     className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
                                     onClick={() => handleAction("call", agent.phoneNumber)}
                                   >
                                     {/* {console.log(`Users phone numner ${users.user.phoneNumber}`)} */}
-                                    Call
+                                       <WhatsAppIcon />
                                   </button>
-                                  <p className="font-semibold text-red-500 ">Note:The Agent(s) info(s) will be sent to you via Email</p></div>
+                                  <p className="font-semibold text-red-500 ">Note:The Agents infos will be sent to you via Email</p></div>
 
 
                               </div>

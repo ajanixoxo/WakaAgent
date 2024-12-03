@@ -5,7 +5,7 @@ function About() {
     const stats = [
         { number: '1+', label: 'years', description: 'of shaping rentals landscapes', delay: "250" },
         // { number: '100+', label: 'Projects', description: 'successfully delivered with excellence', delay:250 },
-        { number: '50+', label: 'Agents', description: 'diverse agent in different state', delay: "250" },
+        { number: '500+', label: 'Agents', description: 'diverse agent in different state', delay: "250" },
         { number: '99%', label: 'Happy Clients', description: 'satisfying our customers to the fullest', delay: "250" },
       ];
   return (
@@ -23,11 +23,7 @@ function About() {
           <p className="text-xl md:text-3xl font-bold text-gray-400 ">About us</p>
           <h2 className="text-3xl md:text-6xl font-bold text-gray-900 mb-4 p">Better lives with better homes</h2>
           <p className="text-gray-700 mb-8">
-            Agentwaka is a platform that connects house seekers with trusted local agents for a nominal fee.
-            We match clients with multiple agents operating in their desired location, ensuring personalized service
-            tailored to their rental needs. Once a match is made, and payment is completed, clients gain access to agent
-            details, and their rental requirements are sent to the agents via WhatsApp and SMS. Our goal is to simplify
-            the search process, giving both clients and agents the flexibility to finalize the terms that best suit them.
+          TrekkingAgent is a platform that connects house seekers with trusted housing agents for a nominal fee. We match clients with multiple agents operating in their desired location, ensuring personalized service tailored to their rental needs. Once a match is made, and payment is completed, clients gain access to agent details, and their rental requirements are sent to the agents via WhatsApp and email. Our goal is to simplify the search process, giving both clients and agents the flexibility to finalize the terms that best suit them.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {stats.map((stat, index) => (

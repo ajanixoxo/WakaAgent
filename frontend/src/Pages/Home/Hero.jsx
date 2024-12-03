@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { useAuthStore } from "../../store/authStore";
 import { Loader } from 'lucide-react';
-import {requestMatching } from '../../store/otherStore'
+import {requestMatching } from '../../store/requests.m.Store'
 import ArrowLeftRight from "/assets/images/logo/arrow-left-right.png"
 import NG from '/assets/images/logo/naija.png'
 import PreviewRequestModal from '../../Components/Preview-Request'
@@ -198,9 +198,11 @@ const handleSubmit = async (e) => {
           Simply describe your rental preferences, and we'll match you with a reliable agent tailored to your needs.    
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col lg:ml-[60%]  w-[100%]   lg:w-[100%]  p-1 md:p-4">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center w-[100%] lg:w-[100%] mx-auto p-1 md:p-4">
           <div className="bg-[#133B5D] lg:w-[10%] px-4 p-1 md:p-2 text-center text-white font-bold">Rent</div>
           <div className="grid gap-4 bg-[#ffffff9a] p-2 md:p-4 lg:w-[40%]">
+          {/* <div className="bg-[#133B5D] lg:w-[10%] px-4 p-1 md:p-2 text-center text-white font-bold">Rent</div> */}
+
             <div className="flex justify-between gap-5 w-full items-center">
               <button
                 type="button"
