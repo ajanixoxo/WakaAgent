@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "backend/index.js",
+        "src": "backend/vercel.js",
         "use": "@vercel/node"
       },
       {
@@ -13,28 +13,38 @@
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "/backend/index.js"
+        "dest": "/backend/vercel.js"
+      },
+      {
+        "handle": "filesystem"
       },
       {
         "src": "/assets/(.*)",
         "dest": "/frontend/dist/assets/$1"
       },
       {
-        "src": "/app/(.*)",
-        "dest": "/frontend/dist/app/$1"
-      },
-      {
-        "src": "/(.*)\\.(?:js|css|svg|png|jpg|jpeg|gif|ico|json)$",
-        "dest": "/frontend/dist/$1.$2"
+        "src": "/(.*\\.[a-z0-9]{8}\\.(js|css))",
+        "dest": "/frontend/dist/$1"
       },
       {
         "src": "/(.*)",
-        "dest": "/backend/index.js"
+        "dest": "/frontend/dist/index.html"
       }
     ],
     "env": {
       "NODE_ENV": "production"
-    }
+    },
+    "headers": [
+      {
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.vercel.app https://*.vercel.live;"
+          }
+        ]
+      }
+    ]
   }
   
   
