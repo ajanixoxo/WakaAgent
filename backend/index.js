@@ -21,6 +21,9 @@ app.use(cookieParser())//allows us to parse incoming cookies
 app.use("/api/auth", authRoutes)
 app.use("/api/request", requestRoutes)
 app.use ("/api/edit", editRoutes)
+app.use ("/api/test", (req,res) => {
+	res.send("hI")
+})
 
 
 if (process.env.NODE_ENV === "production") {
