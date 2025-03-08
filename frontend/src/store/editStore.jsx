@@ -2,7 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
-const API_URL = "https://waka-agent.vercel.app/api/edit"
+const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/api/edit" : "/api/edit";
+
 
 axios.defaults.withCredentials = true;
 
