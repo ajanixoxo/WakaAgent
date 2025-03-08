@@ -44,11 +44,13 @@ export const useAuthStore = create((set) => ({
 			const response = await axios.post(`${API_URL}/login`, { email, password });
 			if (response.data.agent) {
 				set({ agent: response.data.agent, user: null, isAuthenticated: true, isLoading: false });
+				
 			} else if (response.data.user) {
 				set({ user: response.data.user, agent: null, isAuthenticated: true, isLoading: false });
 			}
 		} catch (error) {
 			set({ error: error.response?.data?.message || "Error logging in", isLoading: false });
+			toast.error( error.response?.data?.message);
 			throw error;
 		}
 	},
@@ -86,6 +88,7 @@ export const useAuthStore = create((set) => ({
 			return response.data;
 		} catch (error) {
 			set({ error: error.response.data.message || "Error verifying email", isLoading: false });
+			toast.error(error.response.data.message);
 			throw error;
 		}
 	},
