@@ -1,48 +1,5 @@
 {
-  "version": 2,
-  "dists": [
-    {
-      "src": "backend/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "frontend/dist/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/index.js"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "/frontend/dist/static/$1"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/frontend/dist/assets/$1"
-    },
-    {
-      "src": "/app/(.*)",
-      "dest": "/frontend/dist/app/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/frontend/dist/favicon.ico"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/frontend/dist/manifest.json"
-    },
-    {
-      "src": "/(.*)\\.(?:js|css|svg|png|jpg|jpeg|gif|ico|json)$",
-      "dest": "/frontend/dist/$1.$2"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/index.html"
-    }
-  ]
-}
-
+    "rewrites": [{ "source": "/(.*)", "destination": "/fronted/dist/index.html" }]
+  }
+  
+  
