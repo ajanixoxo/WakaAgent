@@ -1,7 +1,7 @@
 {
   "version": 2,
   "builds": [
-
+  
     {
       "src": "frontend/dist/**",
       "use": "@vercel/static"
@@ -13,8 +13,17 @@
       "dest": "backend/index.js"
     },
     {
+      "src": "/assets/(.*)",
+      "dest": "frontend/dist/assets/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "frontend/dist/favicon.ico"
+    },
+    {
       "src": "/(.*)",
       "dest": "/frontend/dist/$1"
     }
   ]
 }
+
