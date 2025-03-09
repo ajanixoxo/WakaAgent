@@ -13,6 +13,7 @@ dotenv.config();
 
 const app = express();
 const __dirname = path.resolve();
+const PORT = process.env.PORT || 5000
 
 // Connect to Database
 connectDB();
@@ -43,3 +44,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+app.listen(PORT, () => {
+  connectDB()
+  console.log(`app is listening on port ${PORT}`)
+})  
