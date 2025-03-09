@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/api/edit" : "/api/edit";
 
+
 axios.defaults.withCredentials = true;
 
 export const useEditStore = create((set) => ({
