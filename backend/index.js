@@ -22,12 +22,8 @@ connectDB();
 app.use(cors({origin: ['http://localhost:5173', ['https://www.trekkingagent.com'] ], credentials:true}))
 app.use(express.json())//allows us to parse incoming requesit
 app.use(cookieParser())//allows us to parse incoming cookies
-app.use("/api/auth", authRoutes)
-app.use("/api/request", requestRoutes)
-app.use ("/api/edit", editRoutes)
 
-app.use(express.json());
-app.use(cookieParser());
+
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -46,5 +42,5 @@ if (process.env.NODE_ENV === "production") {
 
 app.listen(PORT, () => {
   connectDB()
-  console.log(`app is listening on port ${PORT}`)
+  console.log(`app is listening on PORTt ${PORT}`)
 })  
