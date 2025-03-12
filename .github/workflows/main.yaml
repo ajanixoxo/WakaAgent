@@ -1,4 +1,4 @@
-name: 🚀 Deploy live Changes to cPanel
+name: 🚀 Deploy Full-Stack App to cPanel
 on:
   push:
     branches:
@@ -31,9 +31,20 @@ jobs:
         with:
           node-version: "20"
 
-      - name: 🔨 Install dependencies & Build Project
-        run: |
-          npm run build
+      - name: 📂 Cache Node.js modules & build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+            frontend/node_modules
+            frontend/dist
+          key: ${{ runner.os }}-fullstack-${{ hashFiles('package-lock.json') }}-${{ hashFiles('frontend/src//*.{js,jsx,ts,tsx}') }}
+        restore-keys: |
+          ${{ runner.os }}-fullstack-${{ hashFiles('package-lock.json') }}
+
+      - name: 🔨 Install dependencies & Build Full Stack
+        run: npm run build
 
       - name: 📂 Sync files to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -41,5 +52,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: .dist/
+          local-dir: ./
           server-dir: /public_html/
