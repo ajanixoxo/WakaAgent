@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   web-deploy:
     name: 🎉 Deploy
@@ -20,8 +21,6 @@ jobs:
       FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
       FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
       FTP_SERVER: ${{ secrets.FTP_SERVER }}
-      
-    
 
     steps:
       - name: 🚚 Get latest code
@@ -32,25 +31,27 @@ jobs:
         with:
           node-version: "20"
 
-      - name: 📂 Cache Node.js modules  build cache
+      - name: 📂 Cache Node.js modules & build cache
         uses: actions/cache@v4
         with:
           path: |
             ~/.npm
-            ${{ github.workspace }}/.next/cache
-           key: ${{ runner.os }}-vite-react-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{js,jsx,ts,tsx}') }}}
+            ${{ github.workspace }}/node_modules
+            ${{ github.workspace }}/dist
+          key: ${{ runner.os }}-vite-react-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src//*.{js,jsx,ts,tsx}') }}
         restore-keys: |
-          ${{ runner.os }}-vite-react-${{ hashFiles('package-lock.json') }}}
+          ${{ runner.os }}-vite-react-${{ hashFiles('package-lock.json') }}
 
-
-      - name: 🔨 Build Project
+      - name: 🔨 Install dependencies & Build Project
         run: |
-          
+        
           npm run build
 
-      - name: 📂 Sync files
+      - name: 📂 Sync files to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: dist/
+          server-dir: /public_html/
