@@ -41,7 +41,7 @@ jobs:
             frontend/dist
           key: ${{ runner.os }}-fullstack-${{ hashFiles('package-lock.json') }}-${{ hashFiles('frontend/src//*.{js,jsx,ts,tsx}') }}
           restore-keys: |
-            ${{ runner.os }}-fullstack-${{ hashFiles('package-lock.json') }}
+            ${{ runner.os }}-fullstack-${{ hashFiles('package-lock.json') }}-
 
       - name: 🔨 Install dependencies & Build Full Stack
         run: npm run build
