@@ -1,0 +1,56 @@
+name: 🚀 Deploy live Changes to cPanel
+on:
+  push:
+    branches:
+      - main
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    env:
+      CLIENT_URL: ${{ secrets.CLIENT_URL }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      MAIL_TRAP_ENDPOINT: ${{ secrets.MAIL_TRAP_ENDPOINT }}
+      MAIL_TRAP_TOKEN: ${{ secrets.MAIL_TRAP_TOKEN }}
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      OAUTH_REFRESH_TOKEN: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      
+    
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: 📂 Cache Node.js modules  build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+           key: ${{ runner.os }}-vite-react-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{js,jsx,ts,tsx}') }}}
+        restore-keys: |
+          ${{ runner.os }}-vite-react-${{ hashFiles('package-lock.json') }}}
+
+
+      - name: 🔨 Build Project
+        run: |
+          
+          npm run build
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
